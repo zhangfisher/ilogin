@@ -23,6 +23,7 @@
 import { h, tag,  createRef,Component } from 'omi' 
 import css from "./index.css?raw" 
 import { getGradientBackground } from './gradient' 
+import Color from "color"
 
 export type iBackgroundProps= {
   fullScreen: boolean,
@@ -99,6 +100,7 @@ export default class extends Component {
   }
   render(props:iBackgroundProps) {
     const { color } = props
+    const waveColor = Color(color).lighten(0.8).hex()
     return (   
       <div ref={this.el} className='i-background' style={{
           backgroundColor:color,
@@ -109,9 +111,9 @@ export default class extends Component {
                   <path id="wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
               </defs>
               <g>
-                <use class="wave" xlink:href="#wave" fill="#4579e2" x="50" y="0"></use>
-                <use class="wave" xlink:href="#wave" fill="#3461c1" x="50" y="2"></use>
-                <use class="wave" xlink:href="#wave" fill="#2d55aa" x="50" y="4"></use>
+                <use class="wave" xlink:href="#wave" fill={waveColor} x="50" y="0"></use>
+                <use class="wave" xlink:href="#wave" fill={waveColor}x="50" y="2"></use>
+                <use class="wave" xlink:href="#wave" fill={waveColor} x="50" y="4"></use>
             </g>
           </svg>
  
