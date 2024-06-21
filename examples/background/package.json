@@ -1,27 +1,27 @@
 {
-  "name": "ilogin",
+  "name": "ibackground-example",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "tsup",
+    "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "flowbite": "^2.3.0",
     "omi": "latest"
   },
   "devDependencies": {
-    "@swc/core": "^1.6.3",
     "autoprefixer": "^10.4.16",
-    "esbuild-plugin-raw": "^0.1.8",
     "eslint": "^8.45.0",
     "postcss": "^8.4.31",
     "prettier": "3.0.3",
+    "sass": "^1.55.0",
+    "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",
-    "tsup": "^8.1.0",
-    "typescript": "^5.4.5",
-    "vite": "^5.3.1"
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
   }
 }

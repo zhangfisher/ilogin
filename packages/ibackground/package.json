@@ -1,16 +1,19 @@
 {
-  "name": "ilogin",
+  "name": "ibackground",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "tsup",
-    "preview": "vite preview"
+    "build": "tsup"
   },
   "dependencies": {
-    "omi": "latest"
+    "@types/color": "^3.0.6",
+    "color": "^4.2.3",
+    "color-dialog-box": "^1.0.2",
+    "omi": "latest",
+    "remove": "^0.1.5"
   },
   "devDependencies": {
     "@swc/core": "^1.6.3",

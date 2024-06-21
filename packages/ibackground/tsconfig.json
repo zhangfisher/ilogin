@@ -14,12 +14,11 @@
 		"jsx": "preserve",
 		"jsxFactory": "h",
 		"jsxFragmentFactory": "h.f",
-
 		/* Linting */
 		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src"] 
+	"include": ["src"]
 }

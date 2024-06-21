@@ -1,36 +1,25 @@
-.logo {
-  height: 6em;
-  padding: 1.5em;
+.i-login {
+  position: fixed;
+  -webkit-mask-image: url(../img/login.png1);
+          mask-image: url(../img/login.png1);
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+::-webkit-input-placeholder {
+  color: gray;
 }
-.logo.omi:hover {
-  filter: drop-shadow(0 0 2em #07c161a0);
+::-moz-placeholder {
+  color: gray;
 }
-
-.card {
-  padding: 2em;
+::-ms-input-placeholder {
+  color: gray;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: border-color 0.25s;
+::placeholder {
+  color: gray;
 }
-button:hover {
-  border-color: #07c161a0;
+.image {
+  background-image: url(image@1x.png);
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto #07c160;
-}
-
-.read-the-docs {
-  color: #888;
+@media (-webkit-min-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (min-resolution: 2dppx) {
+  .image {
+    background-image: url(image@2x.png);
+  }
 }
