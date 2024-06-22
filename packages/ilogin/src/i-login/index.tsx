@@ -22,36 +22,69 @@
 
 import { h, tag,  Component } from 'omi' 
 import css from "./index.css?raw" 
+import "../i-background"
+import "../i-waves"
+import "../i-form"
+import "../i-layout"
+import "../i-image"
+import "omiu"
 
-// const count = signal(0)
+import { getPropGroup } from '../utils/getPropGroup'
+ 
+
+export type iLoginProps = {
+  title: string
+  logo: string
+  primaryColor: string
+  copyright: string
+}
 
 @tag('i-login')
 export default class extends Component {
   static css = [ css]
-  static defaultProps = {
-    title: 'iLogin'
+  static props = {
+    title: {
+      type: String,
+      default: "Voerka"
+    },
+    logo:{
+      type: String,
+      default: "https://omi.cdn-go.cn/s/latest/omi.svg"
+    },
+    primaryColor:{
+      type: String,
+      default: "#054e79"
+    },
+    copyright:{
+      type: String,
+      default: "#054e79"
+    }    
   } 
-  static propTypes = {
-    title: String,
-    logo: String
-  }
+
+  provide = { 
+    rootProps: this.props
+  } 
 
   renderHeader(){
 
   }
   renderFooter(){
-
+    this.props
   }
 
   renderForm(){
 
   }
   
-  render() {
-    return (
-      <div>
-        iLogin
-      </div>
+  render(props:iLoginProps  ) {
+    return (<>
+      <div className="i-login">
+        <i-login-layout>           
+            <i-image slot="left" src="https://mdbcdn.b-cdn.net/img/Photos/Thumbnails/Square/1.webp"></i-image>
+            <i-login-form slot="right"></i-login-form>
+        </i-login-layout>
+        <i-waves {...getPropGroup("waves",props,{color:props.primaryColor})}/>     
+      </div></>
 
     )
   }

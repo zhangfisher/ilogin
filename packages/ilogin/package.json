@@ -10,10 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "omi": "latest"
+    "color": "^4.2.3",
+    "omi": "latest",
+    "omi-form": "^0.0.35",
+    "omi-ripple": "^0.1.2",
+    "omiu": "0.1.0-alpha8"
   },
   "devDependencies": {
     "@swc/core": "^1.6.3",
+    "@types/color": "^3.0.6",
     "autoprefixer": "^10.4.16",
     "esbuild-plugin-raw": "^0.1.8",
     "eslint": "^8.45.0",

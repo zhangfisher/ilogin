@@ -23,11 +23,16 @@
 import { h, tag,  createRef,Component } from 'omi' 
 import css from "./index.css?raw" 
 import { getGradientBackground } from './gradient' 
+import Color from "color"
 
 export type iBackgroundProps= {
-  fullScreen: boolean,
-  color     : string,
-  lines     : number
+  fullScreen  : boolean
+  primaryColor: string
+  lines       : number
+  waves       : {
+    count     : number                // 波浪的数量
+
+  }
 }
 
 
@@ -39,9 +44,9 @@ export default class extends Component {
       type: Boolean,
       default: false
     },
-    color:{
+    primaryColor:{
       type: String,
-      default: "#054e79"
+      default: "#00639c"
     },
     lines:{
       type:Number,
@@ -49,17 +54,7 @@ export default class extends Component {
     }
 
   }   
-  el = createRef<HTMLElement>()
-  renderHeader(){
-
-  }
-  renderFooter(){
-
-  }
-
-  renderForm(){
-
-  }
+  el = createRef<HTMLElement>() 
   /**
    * 获取元素的宽度和高度
    */
@@ -71,12 +66,35 @@ export default class extends Component {
       return [window.innerWidth,window.innerHeight]
     }
   }
+  /**
+   * 获取一个组件的的属性组，如:
+   * 
+   * @example
+   * 
+   *  getGroupOptions("wave",props)
+   *  代表获取所有以wave-开头的属性
+   * 
+   * 
+   * 
+   * @param name 
+   * @param props 
+   * @returns 
+   */
+  getGroupOptions(name:string, props:iBackgroundProps){
+    let results:Record<string,any> = {}
+    Object.entries(props).forEach(([key,value])=>{
+      if(key.startsWith(`${name}-`)){
+        results[key.substring(name.length+1)] = value
+      }
+    })
+    return results
+  }
 
   /**
    * 渲染一些装饰线条
    */
   renderLines(props:iBackgroundProps){
-    const { lines,color } = props
+    const { lines,primaryColor } = props
     const [ width,height ]= this.getSize()
     const rate = 0.8
     return new Array(lines).fill(0).map(()=>{
@@ -91,21 +109,19 @@ export default class extends Component {
         borderRadius   : `${ww}px`,
         top            : `${top}px`,        
         left           : `${left}px`,
-        backgroundColor: color,
+        backgroundColor: primaryColor,
         opacity        : 0.6,
-        background     : getGradientBackground({color,direction:'radial'})         
+        background     : getGradientBackground({color:primaryColor,direction:'radial'})         
       }}/>)
     })
-  }
+  } 
   render(props:iBackgroundProps) {
-    const { color } = props
+    const { primaryColor } = props 
     return (   
       <div ref={this.el} className='i-background' style={{
-          backgroundColor:color,
-          background:getGradientBackground({color}), 
-        }}>
-        ibackground
-        {this.renderLines(props)}
+          // backgroundColor:primaryColor,
+          // background:getGradientBackground({color:primaryColor}), 
+        }}>  
       </div>
 
     )

@@ -1,0 +1,45 @@
+.i-login-layout{    
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;  
+  flex-direction: column;
+  width:100%;
+  box-sizing: border-box;
+  flex-grow: 1;
+  .i-login-layout-body{  
+    display: flex;       
+    position: relative;
+    flex-grow: 1;
+    overflow: hidden;
+    .i-login-layout-left{    
+      position: relative;
+      display: flex;
+      flex-grow: 1; 
+      flex-shrink: 1;
+      padding:1em;
+      justify-content: flex-end;
+      align-items: center;       
+      width: 50%;
+    }
+    .i-login-layout-center{    
+      position: relative;
+      display: flex;       
+      flex-grow: 1;
+      flex-shrink: 1;
+      padding:1em;      
+      align-items: center;      
+    }
+    .i-login-layout-right{    
+      position: relative;
+      display: flex;     
+      width: 50%; 
+      flex-grow: 1;         
+      flex-shrink: 1;
+      padding:1em;   
+      justify-content: flex-start;
+      align-items: center;  
+    }
+  }
+}

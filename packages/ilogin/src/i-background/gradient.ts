@@ -24,9 +24,9 @@ export function getGradientBackground(options:GradientBackgroundOptions){
     
     const type= direction =="radial" ? "radial" : "linear"
     const toDirection = {
-        horizontal  : reversed ? "to left" : "to right",
+        horizontal  : reversed ? "to left": "to right",
         vertical    : reversed ? 'to top' : 'to bottom',
-        diagonalUp  : reversed ? "45deg" : "-45deg",
+        diagonalUp  : reversed ? "45deg"  : "-45deg",
         diagonalDown: reversed ? "-45deg" : "45deg",
         radial      : "farthest-side ellipse at center"
     }[direction]
