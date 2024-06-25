@@ -1,9 +1,9 @@
 {
 	"compilerOptions": {
-		"target": "ES5",
+		"target": "ES2021",
 		"experimentalDecorators": true,
 		"useDefineForClassFields": true,
-		"lib": ["ES6", "DOM", "DOM.Iterable"],
+		"lib": ["ES2021", "DOM", "DOM.Iterable"],
 		"skipLibCheck": true,
 		"composite": true,
 		"module": "ESNext",
@@ -21,5 +21,5 @@
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true
 	},
-	"include": ["src"] 
+	"include": ["src", "src/parsers"] 
 }

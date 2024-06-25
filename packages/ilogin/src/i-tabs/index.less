@@ -1,0 +1,36 @@
+.i-tabs {
+    display: flex;
+    position: relative; 
+    text-align: left;
+    width: 100%;    
+    flex-direction: column;
+    & > .switcher{
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-items: stretch;
+        padding: 0;
+        background-color: transparent;
+        border-bottom: 1px solid #F1f1f1;
+        & > button{            
+            overflow: hidden;
+            flex-grow: 1;
+            padding: 0.5em;
+            font-size: 1.1em;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            &.active{
+                border-bottom: 3px solid var(--primary-color);
+            }
+        }
+    }
+
+    & > .tab{
+        flex-grow: 1;
+        padding: 1rem 0 1em 0;
+    }
+   
+  
+  }
+ 

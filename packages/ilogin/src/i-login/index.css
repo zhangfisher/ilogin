@@ -1,3 +1,14 @@
+:host {
+  --i-primary-color: #007bff;
+  --i-secondary-color: #6c757d;
+  --i-bg-color: #fbfbfb;
+  --i-success-color: #28a745;
+  --i-warning-color: #ffc107;
+  --i-danger-color: #dc3545;
+  --i-info-color: #17a2b8;
+  --i-light-color: #f8f9fa;
+  --i-dark-color: #343a40;
+}
 .i-login {
   position: fixed;
   display: -webkit-box;
@@ -13,5 +24,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #fbfbfb;
+  background-color: var(--bg-color);
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+          background-size: cover;
+  background-position-y: -800px;
+  font-size: 16px;
 }
+/* Extra small devices (phones, less than 576px) */
+/* Small devices (landscape phones, 576px and up) */
+/* Medium devices (tablets, 768px and up) */
+/* Large devices (desktops, 992px and up) */
+/* Extra large devices (large desktops, 1200px and up) */

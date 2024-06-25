@@ -24,7 +24,7 @@ export default class extends Component {
   }    
  
   render(props:iFooterProps){
-    return  <div className='i-login-footer'>
+    return  <div className='i-login-footer' data-tips="第三方登录">
       <div className="i-login-footer-wrapper"> 
           福建环宇通信息科技股份公司 版权所有 ©2023-2024
       </div>        

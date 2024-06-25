@@ -1,3 +1,19 @@
+:host{
+    // 主色
+    --i-primary-color: #007bff;
+    --i-secondary-color: #6c757d;
+    // 背景色
+    --i-bg-color: #fbfbfb;               
+
+    --i-success-color: #28a745;
+    --i-warning-color: #ffc107;
+    --i-danger-color: #dc3545;
+    --i-info-color: #17a2b8;
+    --i-light-color: #f8f9fa;
+    --i-dark-color: #343a40;
+}
+
+
 .i-login{
     position:  fixed;      
     display: flex;
@@ -6,6 +22,26 @@
     left: 0;
     width: 100%;
     height: 100%; 
-    background-color: #fbfbfb;
+    background-color: var(--bg-color); 
+    background-repeat: no-repeat;
+    background-size:  cover;
+    background-position-y: -800px;
+    font-size: 16px;
 }  
- 
+
+
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575.98px) { }
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {  }
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {  }
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {  }
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {  }

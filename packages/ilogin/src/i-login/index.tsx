@@ -27,18 +27,24 @@ import "../i-waves"
 import "../i-form"
 import "../i-layout"
 import "../i-image"
+import "../i-input"
+import "../i-checkbox"
+import "../i-tabs"
 import "omiu"
 
 import { getPropGroup } from '../utils/getPropGroup'
+import { getLoginOptions } from './options'
+import { iLoginOptions } from '../types'
  
 
+
+    
 export type iLoginProps = {
   title: string
   logo: string
   primaryColor: string
   copyright: string
-}
-
+} 
 @tag('i-login')
 export default class extends Component {
   static css = [ css]
@@ -60,10 +66,25 @@ export default class extends Component {
       default: "#054e79"
     }    
   } 
+  
+  options:iLoginOptions = getLoginOptions()
 
   provide = { 
-    rootProps: this.props
+    options: this.options
   } 
+ 
+  
+
+  install(){ 
+
+  }
+
+  installed(): void { 
+  }
+
+  removeCssVars(){
+
+  }
 
   renderHeader(){
 
@@ -74,14 +95,14 @@ export default class extends Component {
 
   renderForm(){
 
-  }
-  
-  render(props:iLoginProps  ) {
+  } 
+
+  render(props:iLoginProps) {
+
     return (<>
       <div className="i-login">
         <i-login-layout>           
-            <i-image slot="left" src="https://mdbcdn.b-cdn.net/img/Photos/Thumbnails/Square/1.webp"></i-image>
-            <i-login-form slot="right"></i-login-form>
+            <i-login-form style={{width:"100%"}}></i-login-form>
         </i-login-layout>
         <i-waves {...getPropGroup("waves",props,{color:props.primaryColor})}/>     
       </div></>

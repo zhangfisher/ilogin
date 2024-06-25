@@ -24,7 +24,7 @@ export default class extends Component {
     },
     logo:{
       type: String,
-      default: "https://omi.cdn-go.cn/s/latest/omi.svg"
+      default: "logo.png"
     },
     title:{
       type: String,

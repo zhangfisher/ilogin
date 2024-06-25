@@ -12,15 +12,19 @@ export default class extends Component {
   static css = [tailwind, css]
   
   colorPicker = createRef()
+  ref=createRef()
 
-
+  installed(): void {
+      this.ref.current.config({primaryColor:"blue" })
+  }
 
   render() {
-
+    console.log("redder")
     return (
       <div className='px-5'> 
         <color-picker ref={this.colorPicker} hex="#00639" open={openColorPicker.value}></color-picker>
-         <i-login/>  
+         <i-login  ref={this.ref}>   
+         </i-login>  
       </div>
     )
   }

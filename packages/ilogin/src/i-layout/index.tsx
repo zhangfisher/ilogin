@@ -27,11 +27,14 @@ export default class extends Component {
 		return (
 			<div className="i-login-layout">
 				<i-login-header />
-				<div className="i-login-layout-body">
-					<div className="i-login-layout-left">
+				<div className="body">
+					<div className="left">
 						<slot name="left"></slot>            
 					</div>
-					<div className="i-login-layout-right">
+					<div className="center">
+						<slot></slot>
+					</div>
+					<div className="right">
 						<slot name="right"></slot>
             
 					</div>

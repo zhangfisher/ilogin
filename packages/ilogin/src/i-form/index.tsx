@@ -49,24 +49,34 @@ export default class extends Component {
 		const { primaryColor } = props;
 		return (
 			<div ref={this.el} className="i-login-form">
-				<div className="i-login-form-wrapper">
-					<div className="i-login-form-header">
-						<span className="i-login-form-title">欢迎登录</span>
+				<div className="wrapper">
+					<div className="header">
+						<span className="title">欢迎登录</span>
 					</div>
-					<div className="i-login-form-body">
-          <o-checkbox
-    label="Default checkbox"
-    name="example"
-    value="example"
-    required
-  ></o-checkbox>
-						{/* <o-button >帐号登录</o-button>
-          <o-button >微信登录</o-button>
-          <o-button >手机验证码登录</o-button> */}
-            <o-form config={getBasicLoginForm()} />
-          
+					<div className="body">				
+						<i-tabs>
+						</i-tabs>		
+						<form>
+							<i-input></i-input>
+							<i-input></i-input>
+							<i-input></i-input>
+							<i-input actions={`["发送","验证码"]`}></i-input>
+							<i-input></i-input>
+							<i-checkbox label="记住登录"/>
+							<o-button fullWidth>登录</o-button>
+							{/* primary | success | info | warning | danger | secondary | light | dark */}
+							<o-button fullWidth color="info">注册</o-button>
+						</form>
 					</div>
-					<div className="i-login-form-footer">社交媒体</div>
+					<div className="footer">
+						<span>第三方登录</span>
+						<span className="partys">
+							<a href="#"><img src="/icons/wx.svg"/></a>
+							<a href="#"><img src="/icons/weibo.svg"/></a>
+							<a href="#"><img src="/icons/qq.svg"/></a>
+						</span>
+						
+					</div>
 				</div>
 			</div>
 		);

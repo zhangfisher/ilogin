@@ -1,18 +1,17 @@
 .i-login-form {
   position: relative;
   display: block;
+  width: 100%;
   border: 0px solid #ddd;
   -webkit-border-radius: 5px;
           border-radius: 5px;
-  min-height: 300px;
-  min-width: 400px;
-  max-width: 30%;
+  height: auto;
   -webkit-box-shadow: 2px 2px 7px 1px #e3e3e3;
   box-shadow: 2px 2px 7px 1px #e3e3e3;
   background: white;
 }
-.i-login-form .i-login-form-wrapper {
-  position: absolute;
+.i-login-form .wrapper {
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
@@ -27,7 +26,7 @@
       -ms-flex-direction: column;
           flex-direction: column;
 }
-.i-login-form .i-login-form-wrapper > .i-login-form-header {
+.i-login-form .wrapper > .header {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -38,13 +37,13 @@
           border-radius: 5px 5px 0 0;
   background-color: #fbfbfb;
 }
-.i-login-form .i-login-form-wrapper > .i-login-form-header > .i-login-form-title {
+.i-login-form .wrapper > .header > .i-login-form-title {
   position: relative;
 }
-.i-login-form .i-login-form-wrapper > .i-login-form-tabs {
+.i-login-form .wrapper > .tabs {
   position: relative;
 }
-.i-login-form .i-login-form-wrapper > .i-login-form-body {
+.i-login-form .wrapper > .body {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -59,16 +58,57 @@
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  padding: 1em;
+  padding: 2em;
+  padding-top: 1em;
 }
-.i-login-form .i-login-form-wrapper > .i-login-form-footer {
+.i-login-form .wrapper > .body > form > * {
+  display: block;
+  margin-top: 1em;
+}
+.i-login-form .wrapper > .footer {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   position: relative;
-  padding: 1em;
+  padding: 2em;
   border-top: 1px solid #eee;
   -webkit-border-radius: 0 0 5px 5px;
           border-radius: 0 0 5px 5px;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.i-login-form .wrapper > .footer > :first-child {
+  position: absolute;
+  top: -0.8em;
+  padding: 0 0.5em 0 0.5em;
+  background-color: white;
+  color: #aaa;
+  font-size: 0.8em;
+}
+.i-login-form .wrapper > .footer > .partys {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+.i-login-form .wrapper > .footer > .partys > a > * {
+  width: 2.5em;
+  height: 2.5em;
 }
