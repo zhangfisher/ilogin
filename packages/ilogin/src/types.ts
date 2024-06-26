@@ -38,9 +38,10 @@ export type LoginFormDefine = {
         // 外观配置
 export type iLoginOptions ={
     title: string                           // 应用标题
-    subTitle:string                         // 应用副标题
+    subTitle?:string                         // 应用副标题
     logo:string                             // 应用logo图片地址    
-    copyright:string
+    copyright?:string
+    homepage?:string
     // 外观配置
     appearance:{        
         primaryColor:string,                // 主色调

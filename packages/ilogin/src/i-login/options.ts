@@ -7,8 +7,7 @@
 import deepmerge from "deepmerge"
 import { toCssVarName } from "../utils/toCssVarName"
 import { iLoginOptions } from "../types"
-
-
+import { signal } from "omi"
 
 function generateCssVars(config:iLoginOptions){
     const cssVars:Record<string,string> ={}
@@ -39,8 +38,9 @@ export function getLoginOptions(){
         subTitle:"高度可扩展登录页组件方案",
         logo:'https://omi.cdn-go.cn/s/latest/omi.svg',
         copyright:"©2021 Voerka",
+        // homepage:"/",
         appearance:{
-            primaryColor  : "#1890ff",
+            primaryColor  : "#054e79",
             secondaryColor: "#f5222d",
             successColor  : "#52c41a",
             warningColor  : "#faad14",
@@ -88,3 +88,6 @@ export function getLoginOptions(){
 
     return finalConfig
 }
+
+
+export const context = signal(getLoginOptions())

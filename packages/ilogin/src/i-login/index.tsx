@@ -20,22 +20,25 @@
  * 
  */
 
-import { h, tag,  Component } from 'omi' 
+import { h, tag,  Component, signal } from 'omi' 
 import css from "./index.css?raw" 
+import layout from "../i-layout/index.css?raw"
 import "../i-background"
 import "../i-waves"
 import "../i-form"
-import "../i-layout"
 import "../i-image"
 import "../i-input"
 import "../i-checkbox"
 import "../i-tabs"
-import "omiu"
+import "../i-settings"
+import "../i-popover"
+import "../i-icon"
+import "../i-color-picker"
+import "@omiu/button"
 
 import { getPropGroup } from '../utils/getPropGroup'
-import { getLoginOptions } from './options'
-import { iLoginOptions } from '../types'
- 
+import { getLoginOptions,context } from './options'
+import { iLoginOptions } from '../types' 
 
 
     
@@ -47,7 +50,7 @@ export type iLoginProps = {
 } 
 @tag('i-login')
 export default class extends Component {
-  static css = [ css]
+  static css = [ css,layout ]
   static props = {
     title: {
       type: String,
@@ -67,10 +70,11 @@ export default class extends Component {
     }    
   } 
   
-  options:iLoginOptions = getLoginOptions()
+  options = signal<iLoginOptions>(getLoginOptions()).value
 
   provide = { 
-    options: this.options
+    options: this.options,
+    ilogin: signal<iLoginOptions>(getLoginOptions()) 
   } 
  
   
@@ -101,10 +105,27 @@ export default class extends Component {
 
     return (<>
       <div className="i-login">
-        <i-login-layout>           
-            <i-login-form style={{width:"100%"}}></i-login-form>
-        </i-login-layout>
+        <i-login-header />
+        <div className='workspace'>           
+        <div className="i-form-layout">
+          <div className='field'>
+            <div className='label'>R2</div>
+            <div className='input'>
+						  <o-button>dsd</o-button>
+            </div> 
+          </div>
+          <div className='field'>
+            <div className='label'>R2</div>
+            <div className='input'>
+						  <o-button>dsd</o-button>
+            </div> 
+          </div>
+          </div>
+          <i-color-picker></i-color-picker>
+            <i-login-form style={{width:"30%"}}></i-login-form>
+        </div>
         <i-waves {...getPropGroup("waves",props,{color:props.primaryColor})}/>     
+        <i-login-footer />
       </div></>
 
     )

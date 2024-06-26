@@ -15,7 +15,7 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.i-login-header .i-login-header-wrapper {
+.i-login-header .wrapper {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -28,7 +28,20 @@
           flex-direction: row;
   width: 100%;
 }
-.i-login-header .i-login-header-wrapper .i-login-header-logo {
+.i-login-header .wrapper > a {
+  text-decoration: none;
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+.i-login-header .wrapper > a .logo {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -37,15 +50,15 @@
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 0 1em 0;
+  padding: 0.5 0.5em 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.i-login-header .i-login-header-wrapper .i-login-header-logo img {
-  width: 3em;
-  height: 3em;
+.i-login-header .wrapper > a .logo img {
+  width: 4em;
+  height: 4em;
 }
-.i-login-header .i-login-header-wrapper .i-login-header-title {
+.i-login-header .wrapper > a .title-wrapper {
   font-size: 2em;
   font-weight: 500;
   color: #fff;
@@ -53,26 +66,30 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  padding-left: 0.5em;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
-.i-login-header .i-login-header-wrapper .i-login-header-title .i-login-header-title-text {
+.i-login-header .wrapper > a .title-wrapper .title {
   background: -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: left;
-  line-height: 100%;
 }
-.i-login-header .i-login-header-wrapper .i-login-header-title .i-login-header-title-subtitle {
+.i-login-header .wrapper > a .title-wrapper .subtitle {
   font-size: 0.5em;
-  line-height: 100%;
   color: #666;
+  line-height: 100%;
 }
-.i-login-header .i-login-header-wrapper .i-login-header-actions {
+.i-login-header .wrapper .actions {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

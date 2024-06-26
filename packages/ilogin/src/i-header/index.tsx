@@ -6,12 +6,14 @@
 
 import { h, tag,Component } from 'omi' 
 import css from "./index.css?raw"  
+import { isEmpty } from '../utils/isEmpty'
 
 export type iHeaderProps = {
   color  : string
   logo   : string
   title  : string  
-  url    : string
+  homepage    : string
+
 }
 
 @tag('i-login-header')
@@ -34,21 +36,39 @@ export default class extends Component {
       type: String
     }
   }    
- 
-  render(props:iHeaderProps){
+  inject = ["options"]
+  get options(){
+    // @ts-ignore
+    return this.injection.options
+  }
+  getHeaderProps(){
+    return {
+      title:this.options.title,
+      logo:this.options.logo,
+      homepage:this.options.homepage
+    }
+  }
+  render(){ 
+    const {logo,homepage,title,subTitle} = this.options
     return  <div className='i-login-header'>
-      <div className="i-login-header-wrapper"> 
-        <div className="i-login-header-logo">
-          { props.url ? 
-            <a href={props.url} target='_blank'><img src={props.logo}/> </a>
-            : <img src={props.logo}/>  
-        }          
+      <div className="wrapper"> 
+        <a href={isEmpty(homepage) ? "#" : homepage} target='_blank'>
+        <div className="logo">
+          <img src={logo}/> 
         </div>
-        <div className="i-login-header-title">
-          <span className="i-login-header-title-text"> Voerka</span>
-          <span className="i-login-header-title-subtitle">智慧能物联网开发平台服务器</span>
+        <div className='title-wrapper'>
+          <span className="title"> {title}</span>
+          { isEmpty(subTitle) ? null : <span className="subtitle">{subTitle}</span> }
         </div>
-        <div className="i-login-header-actions">actions</div>
+        </a>
+        <div className="actions">
+          
+        <i-popover> 
+            <div slot='content'>dfdfd
+            </div>
+          </i-popover>
+          <i-settings/>
+        </div>
       </div>        
     </div>
   }

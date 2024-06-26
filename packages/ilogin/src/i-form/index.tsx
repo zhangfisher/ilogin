@@ -22,10 +22,8 @@
 
 import { h, tag, createRef, Component } from "omi";
 import css from "./index.css?raw";
-import Color from "color";
-import 'omi-form'
+import Color from "color"; 
 import { getBasicLoginForm } from "./forms/basic";
-
 
 export type iBackgroundProps = {
 	fullScreen: boolean;
@@ -53,7 +51,8 @@ export default class extends Component {
 					<div className="header">
 						<span className="title">欢迎登录</span>
 					</div>
-					<div className="body">				
+					<div className="body">	
+					 
 						<i-tabs>
 						</i-tabs>		
 						<form>
@@ -63,9 +62,9 @@ export default class extends Component {
 							<i-input actions={`["发送","验证码"]`}></i-input>
 							<i-input></i-input>
 							<i-checkbox label="记住登录"/>
-							<o-button fullWidth>登录</o-button>
+							<o-button block type="primary">登录</o-button>
 							{/* primary | success | info | warning | danger | secondary | light | dark */}
-							<o-button fullWidth color="info">注册</o-button>
+							<o-button block color="info">注册</o-button>
 						</form>
 					</div>
 					<div className="footer">

@@ -12,16 +12,16 @@
   z-index: 0;
   position: relative;
 }
-.i-login-footer .i-login-footer-wrapper {
+.i-login-footer .wrapper {
   position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  display: block;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
+  line-height: 200%;
+  padding: 1em;
   width: 100%;
+  text-align: center;
 }

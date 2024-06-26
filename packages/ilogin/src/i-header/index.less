@@ -6,42 +6,49 @@
   padding:2em;
   z-index: 1;
   box-sizing: border-box;
-  .i-login-header-wrapper{    
+  .wrapper{    
     position: relative;
     display: flex;
     flex-direction: row;
     width: 100%;
-    .i-login-header-logo{ 
+    &> a {
+      text-decoration: none;
+      position: relative;
       display: flex;
-      align-items: center;
-      padding: 0 1em 0;
-      box-sizing: border-box;
-      & img{
-        width: 3em;
-        height: 3em;
-      }
-    }  
-    .i-login-header-title{
-      font-size: 2em;
-      font-weight: 500;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      .i-login-header-title-text{
-        background:  -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: left;
-        line-height: 100%;
-      }
-      .i-login-header-title-subtitle{
-        font-size: 0.5em;        
-        line-height: 100%;                
-        color:#666;
-      }
-    }   
-    .i-login-header-actions{
+      flex-direction: row;
+      .logo{ 
+        display: flex;
+        align-items: center;
+        padding: 0.5 0.5em 0;
+        box-sizing: border-box;
+        & img{
+          width: 4em;
+          height: 4em;
+        }
+      }  
+      .title-wrapper{
+        font-size: 2em;
+        font-weight: 500;
+        color: #fff;
+        display: flex;
+        padding-left: 0.5em;
+        flex-direction: column; 
+        justify-content: center;
+        .title{
+          background:  -webkit-linear-gradient(120deg, #bd34fe 30%, #41d1ff);;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-align: left; 
+        }
+        .subtitle{
+          font-size: 0.5em;                  
+          color:#666;
+          line-height: 100%;
+        }
+      }   
+    }
+    .actions{
       display: flex;
       align-items: center;
       flex-grow: 1;

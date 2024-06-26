@@ -7,6 +7,8 @@
 import { h, tag,Component } from 'omi' 
 import css from "./index.css?raw" 
 import Color from "color"
+import { iLoginOptions } from '../types'
+import { context } from '../i-login/options'
 
 export type iWavesProps = {
   color  : string
@@ -31,11 +33,14 @@ export default class extends Component {
       default: 0.2
     }
   }    
-
-  inject = ['rootProps']
-
+  inject = ["options","ilogin"]
+  get options():iLoginOptions{
+    // @ts-ignore
+    return this.injection.options
+  }
   render(props:iWavesProps){
-    const {color,count,opacity } = props 
+    const { count,opacity } = props 
+    let color = context.value.appearance.primaryColor 
     let lighten = 1.5, delay=3, duration = 2
     return  <svg class="i-waves" style={{opacity}} viewBox="0 24 150 24" preserveAspectRatio="none">
         <defs>
