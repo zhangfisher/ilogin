@@ -12,6 +12,7 @@
   "dependencies": {
     "@omiu/button": "^0.0.12",
     "@popperjs/core": "^2.11.8",
+    "classnames": "^2.5.1",
     "color": "^4.2.3",
     "deepmerge": "^4.3.1",
     "omi": "latest",

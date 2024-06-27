@@ -1,0 +1,75 @@
+.i-input{    
+  position: relative;
+  display: flex;
+  width:100%;
+  box-sizing: border-box;
+  flex-grow: 1;
+  align-items: stretch;
+  border: 1px solid #ccc;
+  padding: 0em;
+  border-radius: 5px; 
+  flex-direction: row;  
+  & > .wrapper{
+    position: relative;    
+    padding:0.5em;
+    display: flex;
+    box-sizing: border-box;
+    flex-grow: 1;
+    align-items: center;
+    flex-direction: row;  
+    min-width: 2em; 
+    &>input{
+      flex-grow: 1;
+      border: none;
+      padding: 0;
+      font-size: 1em;
+      min-width: 2em;
+      flex-shrink: 1;
+      padding: 0.5em;
+      &:focus{
+        outline: none;
+      }
+      &::placeholder{
+        color: #aaa;
+      }
+    } 
+  }
+    & > a.action{
+      position: relative;
+      box-sizing: content-box;
+      display: flex;
+      align-items: center;
+      padding: 0 0.6em 0 0.6em;    
+      border-left: 1px solid #ccc;
+      background-color: #f8f8f8;
+      text-decoration: none;
+      color: #555;
+      text-wrap: nowrap;
+      &:hover{
+        background-color: #f0f0f0;
+      }
+      &:last-child{
+        border-radius: 0 5px 5px 0;
+      }
+    }
+  
+  
+}
+
+
+.i-input ~ .error{
+  position: relative;
+  padding: 0.5em;
+  color: red;
+  text-align: left;
+}
+
+ 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}  

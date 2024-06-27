@@ -34,7 +34,6 @@ export type LoginFormDefine = {
     fields: Array<LoginField>               // 表单字段定义
 }
 
-
         // 外观配置
 export type iLoginOptions ={
     title: string                           // 应用标题
@@ -59,6 +58,7 @@ export type iLoginOptions ={
         // 工作区背景配置
         background:{
             colorized:boolean               // 基于主色调生成一个背景色
+            color:string                    // 背景颜色
             images:Array<string>            // 背景图片CSS样式
             // 底部启用波纹效果
             waves:{
