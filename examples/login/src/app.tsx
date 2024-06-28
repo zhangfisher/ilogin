@@ -1,17 +1,13 @@
-import { h, tag,  signal, Component, createRef } from 'omi' 
+import { h, tag,  Component } from 'omi' 
 import css from "./app.css?raw"
 import { tailwind } from './tailwind'
 import "../../../packages/ilogin/src"  
 
 @tag('my-app')
 export default class extends Component {
-  static css = [tailwind, css]
-  installed(): void {
-      
-  }
+  static css = [tailwind, css] 
 
-  render() {
-    console.log("redder")
+  render() { 
     return (
       <div className='px-5'> 
          <i-login/>  

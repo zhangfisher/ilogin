@@ -22,7 +22,7 @@
 
 import { h, tag, createRef, Component } from "omi";
 import css from "./index.css?raw";
-
+ 
 
 
 @tag("i-login-form")
@@ -33,13 +33,6 @@ export default class extends Component {
 		active: "tab1",
 	};
 	el = createRef<HTMLElement>();
-
-	renderFromJson(data: any[]) {
-		return data.map((item: any) => {
-			let { type, ...props } = item;
-			 
-		});
-	}
 
 	render(props:any) {
 		return (
@@ -53,12 +46,16 @@ export default class extends Component {
 						<i-tabs>
 						</i-tabs>		
 						<form 
-							onAction={(e:any)=>{console.log("onAction=",e.detail)}}
-							onInput={(e:any)=>{console.log("onInput=",e)}}
+							onAction={(e:any)=>{console.log("onAction=",e.detail)}} 
 						>
+							<i-username-field/> 
+							<i-passowrd-field allow-view="false" />
+							<i-passowrd-field placeholder='再输一次密码'/>							
+							<i-verify-code-field/>
+							<i-captcha-field/>
 							<i-input></i-input>
 							<i-input></i-input>
-							<i-input actions={[{icon:'view',position:'before'}]}></i-input>
+							<i-input actions={[{icon:['view','view-off'],tips:"查看密码",position:'before'}]}></i-input>							
 							<i-input actions={[{label:"发送"},{label:"验证码",icon:'user'}]}></i-input>
 							<i-input></i-input>
 							<i-checkbox label="记住登录"/>

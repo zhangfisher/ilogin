@@ -34,12 +34,12 @@ import "./components/i-settings"
 import "./components/i-popover"
 import "./components/i-icon"
 import "./components/i-color-picker"
+import "./presets/fields"
 import "@omiu/button"
 
 import { getPropGroup } from './utils/getPropGroup'
 import { backgroundColor, backgroundColorized, options, primaryColor } from './context'
-import { getGradientBackground } from './components/i-background/gradient'
-
+ 
     
 export type iLoginProps = {
   title: string
