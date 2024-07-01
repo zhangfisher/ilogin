@@ -41,23 +41,18 @@ export default class extends Component {
 					<div className="header">
 						<span className="title">欢迎登录</span>
 					</div>
-					<div className="body">	
-					 
+					<div className="body">						 
 						<i-tabs>
 						</i-tabs>		
 						<form 
-							onAction={(e:any)=>{console.log("onAction=",e.detail)}} 
+							onaction={(e:any)=>{console.log("onAction=",e.detail)}} 
 						>
 							<i-username-field/> 
-							<i-passowrd-field allow-view="false" />
+							<i-passowrd-field />
+							<i-passowrd-field allowView={true} />
 							<i-passowrd-field placeholder='再输一次密码'/>							
 							<i-verify-code-field/>
-							<i-captcha-field/>
-							<i-input></i-input>
-							<i-input></i-input>
-							<i-input actions={[{icon:['view','view-off'],tips:"查看密码",position:'before'}]}></i-input>							
-							<i-input actions={[{label:"发送"},{label:"验证码",icon:'user'}]}></i-input>
-							<i-input></i-input>
+							<i-captcha-field/>						
 							<i-checkbox label="记住登录"/>
 							<o-button block type="primary">登录</o-button>
 							{/* primary | success | info | warning | danger | secondary | light | dark */}

@@ -7,16 +7,18 @@
  *
  */
 
-import { h, tag, Component, bind, createRef, signal, SignalValue,css } from 'omi';
+import { h, tag, Component, bind, createRef, signal, SignalValue,css, Ref } from 'omi';
 import style from "./index.css?raw";
 import "../i-header";
 import "../i-footer"; 
 import { isEmpty } from '../../utils/isEmpty';
 import classnames from 'classnames';
+import { assignObject } from '../../utils/assignObject';
 
 
 export type InputActionDefine = {
 	id?      : string;
+	type     : 'button' | 'icon'
 	enable?  : boolean;
 	label    : string;		
 	tips?    : string;
@@ -27,67 +29,57 @@ export type InputActionDefine = {
 	value?   : string
 	position?: 'default' | 'before' | 'after' 
 	class?   : string										// 额外样式类
-	onClick ?: (e:any) => void;
+	onClick ?: (action:Component,e:any) => void;
 };
 
+export type ReactivedInputActionDefine<T extends InputActionDefine=InputActionDefine> = Required<{
+	[Key in keyof T] : Key extends 'id'  | 'onClick' ? T[Key] : (T[Key] extends string[] ? SignalValue<T[Key]>[] : SignalValue<Required<T[Key]>>)
+}>
+ 
 
 // InputAction转换为响应式
 export type InputAction<T extends InputActionDefine=InputActionDefine> = Required<{
-	[Key in keyof T] : Key extends 'id' | 'value' | 'onClick' ? T[Key] : (T[Key] extends string[] ? SignalValue<T[Key]>[] : SignalValue<Required<T[Key]>>)
+	[Key in keyof T] : Key extends 'id'  | 'onClick' ? T[Key] : (T[Key] extends string[] ? SignalValue<T[Key]>[] : SignalValue<Required<T[Key]>>)
 }>
+ 
+export type InputActionProps = InputActionDefine & { $props:InputAction}
 
 
-export type iInputProps = { 	
-	type: 'text' | 'password'
-	actions : InputActionDefine[]	
-	error : string
-	size  : 'small' | 'middle' | 'large' 
-	placeholder: string
-};
+@tag("i-input-action")
+export class iInputAction extends Component<InputActionProps> { 
+	@bind
+	onActionClick(e:any){ 
+		if(typeof(this.props.onClick)=="function") {
+			this.props.onClick(this,e)
+		}			
+		const event = new CustomEvent('action', {
+			detail: this.props,
+			bubbles: true,
+			composed: true
 
-
-@tag("i-input")
-export default class extends Component<iInputProps> {
-	static css = [style];
-	static props = {		
-		actions:{
-			type: Array,
-			default: []
-		},
-		error:{
-			type: String,
-			default: ''
-		},
-		placeholder:{
-			type: String,
-			default: ''
-		}
-	};
-    get actions(){
-		return this._actions
-    }
-	ref= createRef()
-	_actions:InputAction[] =[]
-	install(): void {
-		this.props.actions.forEach(action=>{			
-			if(!action.position) action.position = 'default'
-			if(!action.tips) action.tips=''
-			if(!action.label) action.label=''
-			if(!action.icon) action.icon=''
-			if(!action.href) action.href='#'
-			if(!action.value) action.value=''
-			if(!action.enable) action.enable=true
-			if(!action.image) action.image=''
-			if(!action.loading) action.loading=false
-			this._actions.push(this.createReactivedAction(action))
-		}) 
+		});
+		this.dispatchEvent(event)
 	}
+	// @ts-ignore
+	$props:ReactivedInputActionDefine = {}
 
-	createReactivedAction(action:InputActionDefine){
+	createReactivedProps(){
 		// @ts-ignore
-		const result: InputAction= {}		
-		Object.entries(action).forEach(([key,value])=>{
-			if(['id','value','onClick'].includes(key)){
+		const result: ReactivedInputActionDefine= {}		
+		const normalizedProps = assignObject({
+			enable  : true,
+			position: 'default',
+			href    : '#',
+			image   : '',
+			loading : false,
+			tips    : '',
+			value   : '',
+			icon    : '',
+			label   : '' 
+		},this.props) as InputActionDefine
+
+		Object.entries(normalizedProps).forEach(([key,value])=>{
+			if(['id','onClick'].includes(key)){
 				// @ts-ignore
 				result[key] = value
 			} else{
@@ -100,65 +92,134 @@ export default class extends Component<iInputProps> {
 				}
 			}
 			
-		}) 
+		}) 		
 		return result
 	}
-
-	@bind
-	onActionClick(e:any,action:InputAction){ 
-		if(typeof(action.onClick)=="function") {
-			action.onClick(action)
-			this.update()
-		}			
-		this.fire("action",action)  
+	install(): void {
+		this.$props = this.createReactivedProps()
 	}
+	renderButton(){
+		return <a part="action" className={classnames("action",this.$props.class?.value)}
+			id={this.$props.id} href={this.$props.href.value}
+			title={this.$props.tips.value}
+			o-ripple 
+			onClick={this.onActionClick}
+			>
+			{ this.$props.icon.value && <i-icon name={this.$props.icon.value}/>} 
+			{ this.$props.label.value}
+			{ this.$props.loading.value ? 
+				<i-icon className="loading" name="loading" size="small"/>	
+				: null
+			}				 
+			<slot/>
+		</a>
+	}
+	renderIcon(){
+		const icons = (Array.isArray(this.props.icon) ? this.props.icon.map(i=>i) : [this.props.icon]).filter(v=>!isEmpty(v))
+		if(icons.length==0) return null
+		if(!this.$props.value.value && icons.length>0)  this.$props.value.value = icons[0]		
+		return <i-icon 
+			name={this.$props.value.value}					 
+			title={this.$props.tips.value || this.$props.label.value}
+			style={{
+				cursor: icons.length >1 ? "pointer" : "cursor"				 
+			}}
+			size="small" 
+			onClick={(e:any)=>{
+				const i = icons.indexOf(this.$props.value.value)
+				this.$props.value.value = icons[(i+1)%icons.length]
+				this.onActionClick(e)
+				 this.update()
+				e.stopPropagation()
+			}}></i-icon> 
+	}
+	render(props:InputActionDefine){	
+		if(props.type=='icon')	{
+			return this.renderIcon()
+		}else{
+			return this.renderButton()
+		}
+	}
+}
+
+export type iInputProps = { 	
+	type: 'text' | 'password'
+	actions : InputActionDefine[]	
+	error : string
+	size  : 'small' | 'middle' | 'large' 
+	placeholder: string
+	ref : Ref<HTMLInputElement>
+};
+@tag("i-input")
+export default class extends Component<iInputProps> {
+	static css = [style];
+	static props = {		
+		actions:{
+			type: Array,
+			default: [] 
+		},
+		error:{
+			type: String,
+			default: ''
+		},
+		placeholder:{
+			type: String,
+			default: ''
+		}
+	};
+	ref= createRef()
+	actions:any[] = []
 	@bind
 	onBlur(e:any){
-		this.fire("blur",e.target.value) 
+		const event = new CustomEvent('blur', {
+			detail: e.target.value,
+			bubbles: true,
+			composed: true
+		});
+		this.dispatchEvent(event)
+
 	}
 	@bind
 	onInput(e:any){
-		this.fire("input",e.target.value) 
+		const event = new CustomEvent('input', {
+			detail: e.target.value,
+			bubbles: true,
+			composed: true
+		});
+		this.dispatchEvent(event)
 	}
 	@bind
 	onChange(e:any){
-		this.fire("change",e.target.value) 
+		const event = new CustomEvent('change', {
+			detail: e.target.value,
+			bubbles: true,
+			composed: true
+		});
+		this.dispatchEvent(event)
 	}
 
-
 	getActions(pos:string='default'){
-		const actions = this._actions  //this.props.actions
+		const actions = this.props.actions  //this.props.actions
 		if(!actions) return []
 		try{
 			return actions.filter((action) => {
-				// if(action.position==undefined) action.position = 'default'
-				return action.position?.value == pos
+				if(!action.position) action.position="default"
+				return action.position == pos
 			})
 		}catch(e){
 			return []
 		}
 	}
-	renderActions(){	
+	renderActions(){	 
 		try{
-			const actions = this.getActions() as InputAction[]
+			const actions = this.getActions()  
 			return actions.map((action) => { 
-				action= Object.assign({href:"#"},action)				
-				return <a className={classnames("action",action.class?.value)}
-					id={action.id} href={action.href.value}
-					title={action.tips.value}
-					o-ripple 
-					onClick={(e)=>this.onActionClick(e,action)}
-					>
-					{ action.icon.value && <i-icon name={action.icon.value}/>} 
-					{ action.label.value}
-					{ action.loading.value ? 
-						<i-icon className="loading" name="loading" size="small"/>	
-						: null
-					}					
-					{ isEmpty(action.image.value) ? null : 
-						<img src={action.image.value}/>
-					}
-				</a>
+				const ref = createRef()
+				this.actions.push(ref)
+				action.type='button'
+				return <i-input-action part="action" ref={ref} {...action}> 
+					<slot name={action.id}></slot>
+				</i-input-action>
 			})
 		}catch(e){
 
@@ -174,32 +235,19 @@ export default class extends Component<iInputProps> {
 		const actions = this.getActions(pos)
 		if(actions.length>0){
 			return actions.map(action=>{
-				const icons = (Array.isArray(action.icon) ? action.icon.map(i=>i.value) : [action.icon.value]).filter(v=>!isEmpty(v))
-				if(!action.value) action.value = icons[0]
-				if(icons.length==0) return null
-				return <i-icon 
-					name={action.value}					 
-					title={action.tips.value || action.label.value}
-					style={{
-						cursor: icons.length >1 ? "pointer" : "cursor"				 
-					}}
-					size="small" 
-					onClick={(e:any)=>{
-						const i = icons.indexOf(action.value)
-						action.value = icons[(i+1)%icons.length]
-						this.onActionClick(e,action)
-						this.update()
-					}}></i-icon>
+				action.type='icon'
+				return <i-input-action {...action}/> 
 			})
 		} 	
 	}
 
-	render(props: iInputProps) {		
+	render(props: iInputProps) {	
 		return <>
 			<div className="i-input" ref={this.ref}>
 				<span className="wrapper">
 					{this.renderIcons("before")}
 					<input
+						ref ={props.ref}
 						type={props.type}
 						onBlur={(e)=>this.onBlur(e)}
 						onChange={(e)=>this.onChange(e)}
@@ -210,6 +258,7 @@ export default class extends Component<iInputProps> {
 				{ this.renderActions() } 
 			</div>
 			{props.error && <div className="error">{props.error}</div>}
+			<slot name="tips"></slot>
 			</> 
 	}
 }

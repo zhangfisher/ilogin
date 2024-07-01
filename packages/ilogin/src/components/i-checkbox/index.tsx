@@ -29,8 +29,9 @@ export default class extends Component {
 			<div className="i-checkbox" >
 				<input id="a"  checked={true} type="checkbox" onChange={this.onChange}
 					data-color="red"
-				/> 
-				<label for="a">{props.label}</label> 
+				/> 				
+				<span className="checkbox"></span>		
+				<label for="a">{props.label}</label> 		
 			</div> 
 			)
 	}

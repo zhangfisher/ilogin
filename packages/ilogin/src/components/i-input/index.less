@@ -34,7 +34,7 @@
       }
     } 
   }
-    & > a.action{
+    & ::part(action){
       position: relative;
       box-sizing: content-box;
       display: flex;
@@ -45,17 +45,16 @@
       text-decoration: none;
       color: #555;
       text-wrap: nowrap;
+      height:100%;
       &:hover{
         background-color: #f0f0f0;
-      }
-      &:last-child{
-        border-radius: 0 5px 5px 0;
-      }
+      } 
+    } 
+    & :last-child::part(action){
+      border-radius: 0 5px 5px 0;
     }
-  
-  
 }
-
+ 
 
 .i-input ~ .error{
   position: relative;

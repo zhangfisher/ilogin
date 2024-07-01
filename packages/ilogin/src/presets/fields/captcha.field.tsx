@@ -1,10 +1,14 @@
-import { h,tag,Component, effect,bind,css, signal, createRef} from "omi"
-import { InputAction, iInputProps } from "../../components/i-input";
+import { h,tag,Component, bind,css, signal} from "omi"
+import { iInputProps } from "../../components/i-input";
+import { isEmpty } from "../../utils/isEmpty";
 
 
 const style = css`
-   :host-context(.captcha-image){
-        min-width: 100px;
+   :host .refresh{
+        min-width: 128px;
+        justify-content: center;
+        display: flex;
+        align-items: center;
    }
 `
 
@@ -17,33 +21,26 @@ export type CaptchaFieldProps = iInputProps & {
 export default class extends Component<CaptchaFieldProps> {
     static css= [ style ]
     tmId:any = 0 
-    captchaData = signal('')
-    isCaptchaLoading =signal(false)
-    static props  ={
+    captchaImgData = signal('')
+    isCaptchaFetching = signal(false)
+    static props  ={        
         fetchUrl:{ 
             type:String,
-            default:"/captcha.png"
+            default:"captcha.png"
         },
         validUrl:{ 
             type:String,
             default:""
         }
     }
-    ref = createRef()
-    install(): void {
+    install(): void { 
+        this.isCaptchaFetching.value = true
         this.getCaptchaImage(this.props.fetchUrl).then((data:any)=>{
-            this.captchaData.value = data 
-            //@ts-ignore
-            const action =  this.ref.current.actions[0] as InputAction
-            action.image.value = data 
+            this.captchaImgData.value = data 
         }).finally(()=>{
-            //@ts-ignore
-            const action =  this.ref.current.actions[0] as InputAction
-            action.loading.value = false
-            //@ts-ignore
-            this.ref.current.update()
-        })
-
+            this.isCaptchaFetching.value  = false 
+            this.update()
+        })        
     } 
     /**
      * 使用fetch获取验证码图片，并转换为base64格式
@@ -51,7 +48,7 @@ export default class extends Component<CaptchaFieldProps> {
     getCaptchaImage(url:string){
         const self = this
         return new Promise((resolve,reject)=>{
-                self.isCaptchaLoading.value = true
+                self.isCaptchaFetching.value = true
                 fetch(url).then(res=>{
                     res.blob().then(blob=>{
                         let reader = new FileReader()
@@ -70,19 +67,24 @@ export default class extends Component<CaptchaFieldProps> {
                         reader.readAsDataURL(blob)
                     }).catch(e=>reject(e))
                 }).finally(()=>{                                                   
-                    self.isCaptchaLoading.value = false
+                    self.isCaptchaFetching.value = false
                 })
         })
     }
 
-    @bind
-    onRefreshCaptcha(action:InputAction){ 
+    refreshCaptcha(){        
+        this.isCaptchaFetching.value = true
         this.getCaptchaImage(this.props.fetchUrl).then((data:any)=>{
-            action.image.value = data 
+            this.captchaImgData.value = data 
         }).finally(()=>{
-            action.loading.value = false
-        })
-         
+            this.isCaptchaFetching.value  = false 
+            this.update()
+        })   
+    }
+
+    @bind
+    onRefreshCaptcha(){ 
+        this.refreshCaptcha()
     }
     render(props:CaptchaFieldProps){
         const options=  Object.assign({ 
@@ -91,15 +93,21 @@ export default class extends Component<CaptchaFieldProps> {
                 {
                     id     : "refresh",
                     label  : "",
+                    tips   : "点击刷新验证码",
                     onClick: this.onRefreshCaptcha,
-                    image  : '',
-                    class  : 'captcha-image',
-                    loading: true
                 }
             ],
             placeholder:'验证码',
         },props)
-        return <i-input ref={this.ref} {...options}/>
+        return <i-input {...options}>
+            <span slot="refresh" className="refresh">
+                {
+                    this.isCaptchaFetching.value ?
+                    <i-icon name="loading"/>
+                    : (isEmpty(this.captchaImgData.value) ? null :  <img src={this.captchaImgData.value}/>) 
+                }
+            </span>
+        </i-input>
     }
 }
 

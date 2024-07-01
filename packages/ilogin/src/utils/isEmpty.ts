@@ -1,3 +1,3 @@
 export function isEmpty(v:any){
-    return v===undefined || v===null || v.trim()==='';
+    return v===undefined || v===null || typeof(v)=='string' && v.trim()==='';
 }
