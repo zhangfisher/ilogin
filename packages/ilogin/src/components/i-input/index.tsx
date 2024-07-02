@@ -143,17 +143,24 @@ export class iInputAction extends Component<InputActionProps> {
 }
 
 export type iInputProps = { 	
+	name: string
 	type: 'text' | 'password'
 	actions : InputActionDefine[]	
 	error : string
 	size  : 'small' | 'middle' | 'large' 
 	placeholder: string
-	ref : Ref<HTMLInputElement>
+	ref : Ref<HTMLInputElement>	
+	minLength?: number
+	maxLength?: number
 };
 @tag("i-input")
 export default class extends Component<iInputProps> {
 	static css = [style];
 	static props = {		
+		name:{
+			type: String,
+			default: ''
+		},
 		actions:{
 			type: Array,
 			default: [] 
@@ -172,21 +179,29 @@ export default class extends Component<iInputProps> {
 	@bind
 	onBlur(e:any){
 		const event = new CustomEvent('blur', {
-			detail: e.target.value,
+			detail: {
+				name : this.props.name,
+				value:e.target.value
+			},				
 			bubbles: true,
 			composed: true
 		});
 		this.dispatchEvent(event)
-
+		e.stopPropagation()
 	}
 	@bind
 	onInput(e:any){
 		const event = new CustomEvent('input', {
-			detail: e.target.value,
+			detail:{
+				name : this.props.name,
+				value: e.target.value,
+				input:this
+			},
 			bubbles: true,
 			composed: true
 		});
 		this.dispatchEvent(event)
+		e.stopPropagation()
 	}
 	@bind
 	onChange(e:any){
@@ -195,7 +210,8 @@ export default class extends Component<iInputProps> {
 			bubbles: true,
 			composed: true
 		});
-		this.dispatchEvent(event)
+		this.dispatchEvent(event)		
+		e.stopPropagation()
 	}
 
 	getActions(pos:string='default'){
@@ -247,12 +263,15 @@ export default class extends Component<iInputProps> {
 				<span className="wrapper">
 					{this.renderIcons("before")}
 					<input
+						name={props.name}
 						ref ={props.ref}
 						type={props.type}
 						onBlur={(e)=>this.onBlur(e)}
 						onChange={(e)=>this.onChange(e)}
 						onInput={(e)=>this.onInput(e)}
-					placeholder={props.placeholder} />
+						minLength={props.minLength}
+						maxLength={props.maxLength}
+						placeholder={props.placeholder} />
 					{this.renderIcons("after")}
 				</span>
 				{ this.renderActions() } 

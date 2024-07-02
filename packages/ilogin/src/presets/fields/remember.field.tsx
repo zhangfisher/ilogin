@@ -18,6 +18,8 @@ export default class extends Component<RememberFieldProps> {
         }
     }
     render(props: any) {
-        return <i-checkbox></i-checkbox>
+        return <i-checkbox {...Object.assign({
+            name:"remember",
+        },props)}></i-checkbox>
     }
 }

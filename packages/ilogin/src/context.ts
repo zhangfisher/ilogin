@@ -20,7 +20,7 @@ function generateCssVars(config:iLoginOptions){
     // 将CSS变量插入全局变量中
     Object.keys(cssVars).forEach(key=>{
         document.documentElement.style.setProperty(key,cssVars[key])
-      })
+    })
     return cssVars
 }
 
@@ -40,7 +40,7 @@ export function getLoginOptions(){
         copyright:"©2021 Voerka Group",
         // homepage:"/",
         appearance:{
-            primaryColor   : "#054e79",
+            primaryColor   : "#0873b1",
             secondaryColor : "#f5222d",
             successColor   : "#52c41a",
             warningColor   : "#faad14",
@@ -60,19 +60,71 @@ export function getLoginOptions(){
                     count:3,
                     speed:1
                 }
-            },
-            form:{
-                title:"欢迎",
-                offsetX:0,
-                offsetY:0,
-                width:300,
-                transparent:false,
-                shadow:true,
-                border:true            
             }
         },
+        panel:{ 
+            title:"欢迎",
+            offsetX:0,
+            offsetY:0,
+            width:300,
+            transparent:false,
+            shadow:true,
+            border:true            
+        },
         login:{
-
+            basic:{                             // 基础登录表单，包括基本的图形验证码、账号密码登录
+                title:"帐号登录",
+                url:"api/login",
+                fields:[
+                    {
+                        type: "username",
+                        label: "用户名",
+                        placeholder: "请输入用户名",
+                        validate: (value:string)=>(value.length>5)
+                    },
+                    {
+                        type: "password",
+                        label: "密码",
+                        placeholder: "请输入密码",
+                        validate: (value:string)=>(value.length>5)
+                    },
+                    {
+                        type: "captcha",
+                        label: "验证码",
+                        placeholder: "请输入验证码",
+                        fetchUrl:"/captcha.png",
+                        validate: (value:string)=>(value.length>5)
+                    },
+                    [
+                        {
+                            type: "remember",
+                            label: "记住登录"
+                        },
+                        {
+                            type:"forgetPassword",
+                            label:"忘记密码?",
+                            url:"/forget-password"
+                        }
+                    ]
+                ]
+            },                                     
+            verifyCode:{                                
+                title:"验证码登录",
+                fields:[
+                    {
+                        type: "username",
+                        label: "用户名",
+                        placeholder: "请输入用户名",
+                        validate: (value:string)=>(value.length>5)
+                    },
+                    {
+                        type: "verifyCode",
+                        label: "验证码",
+                        placeholder: "请输入验证码",
+                        validate: (value:string)=>(value.length>5)
+                    }
+                ]    
+            }                         
         },
         thirdPartyLogin:{
             

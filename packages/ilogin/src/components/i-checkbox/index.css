@@ -41,7 +41,7 @@
       -ms-flex-align: stretch;
           align-items: stretch;
   position: relative;
-  padding-left: 0.2em;
+  padding-left: 0.5em;
 }
 .i-checkbox span.checkbox {
   width: 1.2em;

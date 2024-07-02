@@ -23,30 +23,21 @@
 import { h, tag,  Component } from 'omi' 
 import css from "./index.css?raw" 
 import layout from "./components/i-layout/index.css?raw"
-import "./components/i-background"
-import "./components/i-waves"
-import "./components/i-form"
-import "./components/i-image"
-import "./components/i-input"
-import "./components/i-checkbox"
-import "./components/i-tabs"
-import "./components/i-settings"
-import "./components/i-popover"
-import "./components/i-icon"
-import "./components/i-color-picker"
+import './directives'
+import "./components"
 import "./presets/fields"
 import "@omiu/button"
 
 import { getPropGroup } from './utils/getPropGroup'
-import { backgroundColor, backgroundColorized, options, primaryColor } from './context'
+import {  options } from './context'
  
-    
 export type iLoginProps = {
   title: string
   logo: string
   primaryColor: string
   copyright: string
 } 
+
 @tag('i-login')
 export default class extends Component {
   static css = [ css,layout ]
@@ -61,12 +52,8 @@ export default class extends Component {
     },
     primaryColor:{
       type: String,
-      default: "#054e79"
-    },
-    copyright:{
-      type: String,
-      default: "#054e79"
-    }    
+      default: "#0873b1"
+    } 
   }  
 
   provide = {  
@@ -99,14 +86,10 @@ export default class extends Component {
   render(props:iLoginProps) {
 
     return (<>
-      <div className="i-login"
-        style={{
-          background: backgroundColor.value  
-        }}
-      >     
+      <div className="i-login">     
         <i-login-header />  
-        <div className='workspace'>
-        <i-login-form />
+        <div className='workspace'> 
+            <i-login-panel />
         </div>
         <i-waves {...getPropGroup("waves",props,{})}/>     
         <i-login-footer />

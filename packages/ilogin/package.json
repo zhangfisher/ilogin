@@ -16,10 +16,8 @@
     "color": "^4.2.3",
     "deepmerge": "^4.3.1",
     "omi": "latest",
-    "omi-form": "^0.0.35",
     "omi-ripple": "^0.1.2",
-    "omi-transition": "^0.1.7",
-    "omiu": "0.1.0-alpha8"
+    "omi-transition": "^0.1.7"
   },
   "devDependencies": {
     "@swc/core": "^1.6.3",

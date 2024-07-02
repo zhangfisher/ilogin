@@ -20,56 +20,103 @@
  *
  */
 
-import { h, tag, createRef, Component } from "omi";
+import { h, tag, Component, bind, createRef } from "omi";
 import css from "./index.css?raw";
+import { LoginFormField } from "../../types";
  
 
+export type iLoginFormProps = {
+	title?:string
+	url?:string
+	fields: Array<LoginFormField | Array<LoginFormField>>
+}
 
 @tag("i-login-form")
-export default class extends Component {
+export default class extends Component<iLoginFormProps> {
 	static css = [css];
-	static props = {};
-	state = {
-		active: "tab1",
-	};
-	el = createRef<HTMLElement>();
+	static props = {		
+		fields:{
+			type:Array,
+		 	default:[]
+		}
+	}; 
 
-	render(props:any) {
+	el=createRef<HTMLFormElement>()
+
+	@bind
+	onInput(e:any){
+		try{
+			const {name,value} = Object.assign({},e.target.detail)
+
+			
+		}catch{}		
+	}
+	@bind
+	onBlur(e:any){
+
+	}
+	@bind
+	onChange(e:any){
+
+	}
+	@bind
+	onAction(e:any){
+
+	}
+	@bind
+	onSubmit(e:any){ 
+		this.el.current!.submit()
+	}
+	renderField(field:LoginFormField){
+		if(Array.isArray(field)){
+			return this.renderFieldGroup(field)
+		}else{
+			switch(field.type){
+				case "username":
+					return <i-username-field {...field}/>	
+				case "password":
+					return <i-passowrd-field {...field}/>
+				case "verifyCode":
+					return <i-verify-code-field {...field}/>
+				case "captcha":
+					return <i-captcha-field {...field}/>
+				case "remember":
+					return <i-remember-field {...field}/>				
+				case "forgetPassword":
+					return <i-forget-password-field {...field}/>					
+			} 
+		}
+	}
+	renderFieldGroup(field:LoginFormField[]){
+		return <div className="field-group">
+			{
+				field.map((f)=>{
+					return this.renderField(f)
+				})
+			}
+		</div>
+	}
+	render(props) {
 		return (
-			<div ref={this.el} className="i-login-form">
-				<div className="wrapper">
-					<div className="header">
-						<span className="title">欢迎登录</span>
-					</div>
-					<div className="body">						 
-						<i-tabs>
-						</i-tabs>		
-						<form 
-							onaction={(e:any)=>{console.log("onAction=",e.detail)}} 
-						>
-							<i-username-field/> 
-							<i-passowrd-field />
-							<i-passowrd-field allowView={true} />
-							<i-passowrd-field placeholder='再输一次密码'/>							
-							<i-verify-code-field/>
-							<i-captcha-field/>						
-							<i-checkbox label="记住登录"/>
-							<o-button block type="primary">登录</o-button>
-							{/* primary | success | info | warning | danger | secondary | light | dark */}
-							<o-button block color="info">注册</o-button>
-						</form>
-					</div>
-					<div className="footer">
-						<span>第三方登录</span>
-						<span className="partys">
-							<a href="#"><img src="/icons/wx.svg"/></a>
-							<a href="#"><img src="/icons/weibo.svg"/></a>
-							<a href="#"><img src="/icons/qq.svg"/></a>
-						</span>
-						
-					</div>
-				</div>
-			</div>
+			<form 
+				ref={this.el}
+				method="post"
+				onaction={this.onAction} 
+				onInput={this.onInput}  
+				onBlur={this.onBlur}
+				onChange={this.onChange}
+				className="i-login-form"
+				action={props.url}
+			>
+				{/* 字段 */}
+				{				
+					props.fields.map((field:any)=>{
+						return this.renderField(field)
+					})
+				}		
+				{/* 提交按钮 */}
+				<i-submit onSubmit={this.onSubmit}/> 
+			</form> 
 		);
 	}
 }

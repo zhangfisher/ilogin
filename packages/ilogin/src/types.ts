@@ -1,3 +1,4 @@
+import { InputActionDefine } from "./components/i-input"
 
 
 //  登录类型
@@ -9,38 +10,58 @@ export enum LoginTypes{
     verifyCode     = 'verifyCode'           // 邮箱或手机验证码登录，提供发送验证码的按钮，然后等待输入验证码
 }
 
-export type PresetInputField = 
+export type LoginFormFieldType = 
     'username' 
-    | 'password' 
-    | 'passwordWithView'
+    | 'password'  
     | 'verifyCode'    
-    | 'rememberMe'
+    | 'remember'
     | 'autoLogin'
     | 'captcha'
     | 'forgetPassword'
     | 'register'
     | 'login'
+    | 'submit'
+    | 'input'
+    | 'checkbox'
 
-
-export type LoginField =  (string | Record<string,any>)[]
+export type LoginFormField =  {
+    type        : LoginFormFieldType
+    label       : string
+    placeholder?: string
+    validate?   : (value:string)=>boolean
+    error?      : string | ((e:Error)=>string)
+    url?        : string
+    tips?       : string
+    icon?       : string
+    actions?    : Array<InputActionDefine>    
+} & Record<string,any>
 
 export type LoginFieldLayout = {
 
 }
 
 export type LoginFormDefine = { 
-    title: string,                          // 表单标题
-    url: string,                            // 表单提交地址    
-    fields: Array<LoginField>               // 表单字段定义
+    title: string                           // 表单标题
+    url?: string                             // 表单提交地址    
+    validate?:{                              // 表单验证规则
+        on?:"input" | 'blur' | 'submit'      // 验证时机，input:输入时验证，blur:失去焦点时验证,submit:提交时验证        
+    }   
+    fields: Array<LoginFormField | Array<LoginFormField>>               // 表单字段定义    
+
 }
 
-        // 外观配置
+
 export type iLoginOptions ={
     title: string                           // 应用标题
     subTitle?:string                         // 应用副标题
     logo:string                             // 应用logo图片地址    
     copyright?:string
     homepage?:string
+    hero?:string                            // 指定主题图片
+    layout:{
+        cols: 2                             // 布局列数，取值1,2,3
+
+    }
     // 外观配置
     appearance:{        
         primaryColor:string,                // 主色调
@@ -67,17 +88,19 @@ export type iLoginOptions ={
                 speed:number,               // 波纹速度
             }
         }
-        // 表单配置
-        form:{
-            title:string                    // 表单标题,为空时不显示
-            offsetX: number | string        // 表单水平偏移量
-            offsetY: number | string        // 表单垂直偏移量
-            width: number | string          // 指定表单宽度
-            transparent: boolean            // 是否透明背景
-            shadow: boolean                 // 是否显示阴影
-            border : boolean                // 是否显示边框
-        }
-    },
+
+    },        
+    // 登录面板
+    panel:{
+        title:string                    // 表单标题,为空时不显示
+        col: number                     // 指定表单面板显示在哪一个列
+        offsetX: number | string        // 表单水平偏移量
+        offsetY: number | string        // 表单垂直偏移量
+        width: number | string          // 指定表单宽度
+        transparent: boolean            // 是否透明背景
+        shadow: boolean                 // 是否显示阴影
+        border : boolean                // 是否显示边框
+    }
     // 登录配置
     login:Record<string,LoginFormDefine>
     thirdPartyLogin:Record<string,any>
@@ -85,7 +108,7 @@ export type iLoginOptions ={
     register:{
         enable:boolean                      // 是否启用注册
         url:string                          // 注册地址
-        fields: Array<LoginField>           // 注册表单字段定义
+        fields: Array<LoginFormField>           // 注册表单字段定义
     }
 }        
         

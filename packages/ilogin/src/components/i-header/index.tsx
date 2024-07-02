@@ -66,8 +66,7 @@ export default class extends Component {
         <i-popover> 
             <div slot='content'>dfdfd
             </div>
-          </i-popover>
-          <i-settings/>
+          </i-popover> 
         </div>
       </div>        
     </div>

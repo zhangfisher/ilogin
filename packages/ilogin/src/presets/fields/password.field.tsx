@@ -1,6 +1,5 @@
 import { h,Component,tag,bind, signal } from "omi"
-import { InputAction, InputActionDefine, iInputProps } from "../../components/i-input";
-
+import { iInputProps } from "../../components/i-input";
  
 export type iPasswordFieldProps = iInputProps & {
     allowView:boolean
@@ -22,12 +21,7 @@ export default class extends Component<iPasswordFieldProps> {
         }else{
             this.inputType.value = "password"
         } 
-    }
-    installed(): void {
-        this.addEventListener('action', (evt) => {
-            
-        })
-    }
+    } 
     render(props:iPasswordFieldProps){ 
         const actions = [ {icon:'lock',position:'before'}] as any[]
         if(props.allowView){
@@ -38,11 +32,13 @@ export default class extends Component<iPasswordFieldProps> {
             })
         }
         return <i-input
-        {...Object.assign({
-            actions:actions,
-            type:this.inputType.value,
-            placeholder:'密码',
-        },props)}
-    />
+            {...Object.assign({
+                actions:actions,
+                type:this.inputType.value,
+                placeholder:'密码',            
+                name:'password',
+                label:"忘记密码?",
+            },props)}
+            />
     }
 }

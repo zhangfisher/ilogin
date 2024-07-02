@@ -10,28 +10,63 @@ import "../i-footer";
  
 
 export type iCheckboxProps = {
-	label?: string;
+	name:string;
+	label: string;
+	value:boolean
 };
 
 @tag("i-checkbox")
 export default class extends Component {
 	static css = [css];
 	static props = { 
+		name:{
+			type:String
+		},
+		label:{
+			type:String
+		},
+		value:{
+			type:Boolean,
+			default:false
+		}
 	}; 
 	@bind
 	onChange(e:any){
-		this.fire("change",e.target.value)
+		const event = new CustomEvent('change', {
+			detail: {
+				name: 'value',
+				value: e.target.checked
+			},
+			bubbles: true,
+			composed: true
+		})
+		this.dispatchEvent(event)
 		e.stopPropagation()
 	}
-	render(props: iCheckboxProps) {
-		
+	@bind
+	onInput(e:any){
+		const event = new CustomEvent('input', {
+			detail: {
+				name: 'value',
+				value: e.target.checked
+			},
+			bubbles: true,
+			composed: true
+		})
+		this.dispatchEvent(event)
+		e.stopPropagation()
+	}
+
+	render(props: iCheckboxProps) {		
 		return (
 			<div className="i-checkbox" >
-				<input id="a"  checked={true} type="checkbox" onChange={this.onChange}
-					data-color="red"
+				<input id={props.name}  name={props.name} 
+					checked={props.value} type="checkbox" 
+					onChange={this.onChange}					
+					onInput={this.onInput}		
 				/> 				
 				<span className="checkbox"></span>		
-				<label for="a">{props.label}</label> 		
+				<label for={props.name}>{props.label}</label> 		
 			</div> 
 			)
 	}

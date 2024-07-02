@@ -1,0 +1,32 @@
+:host{
+    position: relative;
+    width: 100%; 
+    display: block;
+    overflow: hidden; 
+    .submit{
+        position: relative;
+        display: block;
+        width: 100%;
+        padding: 0.5em; 
+        border: none;
+        background-color: #07c160;
+        border:1px solid #07c160;
+        color: white;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        text-align: center;
+        &:focus{
+            outline: none;
+            background-color: rgba(7, 193, 96, .618);
+            border-color: #05b454;
+        } 
+        &:hover{
+            transition: background-color 0.3s ease;
+            background-color: rgba(7, 193, 96, .618);
+            border-color: #05b454;
+        }
+    }
+
+
+}

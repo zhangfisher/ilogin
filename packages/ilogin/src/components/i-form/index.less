@@ -1,83 +1,27 @@
-.i-login-form{
+:host{
   position: relative;    
   display: block;    
-  width: 100%;
-  border: 0px solid #ddd;
-  border-radius: 5px; 
-  height: auto;
-  -webkit-box-shadow: 2px 2px 7px 1px rgba(227,227,227,1);
-  -moz-box-shadow: 2px 2px 7px 1px rgba(227,227,227,1);
-  box-shadow: 2px 2px 7px 1px rgba(227,227,227,1);    
-  background: white;
-  .wrapper{
-    position: relative;    
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    & > .header {        
+  width: 100%; 
+  height: auto;  
+  form{
+    & > *{
+      display: block;
+      margin-top: 1em;
+    }
+
+    .field-group{
+      position: relative;
       display: flex;
-      position: relative;    
-      padding: 1em;
-      border-radius: 5px 5px 0 0;
-      // border-bottom: 1px solid #eee;
-      & > .i-login-form-title{
-        position: relative;    
+      align-items: center;
+      justify-content: space-between;
+      & > *{
+        margin-right: 1em;
       }
-      background-color: #fbfbfb;
-
-    }
-    
-    & > .tabs{
-      position: relative;    
-    }
-    & > .body{
-      display: flex;
-      position: relative;    
-      flex-grow: 1;
-      flex-direction: column;
-      padding:2em;
-      padding-top:1em;
-
-      &>form{
-        & > *{
-          display: block;
-          margin-top: 1em;
-        }
-      }        
-    }
-    & > .footer{
-      display: flex;
-      position: relative;    
-      padding: 2em;
-      border-top: 1px solid #eee;        
-      border-radius: 0 0 5px 5px;
-      align-items: center;      
-      flex-direction: column;
-      &>:first-child{
-        position: absolute;
-        top: -0.8em;
-        padding: 0 0.5em 0 0.5em;
-        background-color: white;
-        color:#aaa; 
-        font-size: 0.8em;
-      } 
-      & > .partys{        
-        display: flex;
-        align-items: center;
-        width: 100%;
-        justify-content: space-evenly;
-        & > a {
-          & > * {
-            width: 2.5em;
-            height: 2.5em;
-          }
-        }
+      & > :last-child{
+        margin-right: 0em;
       }
     }
-  }
+  }         
   
 }  
      

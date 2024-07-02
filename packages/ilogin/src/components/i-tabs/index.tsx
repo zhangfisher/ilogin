@@ -8,7 +8,7 @@
  * 
  */
 
-import { h, tag, Component, signal } from "omi";
+import { h, tag, Component, signal, OmiProps } from "omi";
 import css from "./index.css?raw"; 
  
 
@@ -39,7 +39,6 @@ export default class extends Component {
 		this.activeTab.value = index	
 		e.stopPropagation()
 	}
-
 	render(props: iTabsProps) {
 		const { tabs } = props
 		return (
