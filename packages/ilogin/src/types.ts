@@ -28,8 +28,12 @@ export type LoginFormField =  {
     type        : LoginFormFieldType
     label       : string
     placeholder?: string
-    validate?   : (value:string)=>boolean
-    error?      : string | ((e:Error)=>string)
+    // 验证失败时应触发的错误消息
+    //如throw new Error("长度不足")或者直接返回错误消息字符串，将显示在输入框下方
+    validate?   : RegExp | ((value:string)=>boolean | string | Promise<boolean | string>)  
+    // 限定长度
+    length?     : [number,number]
+    pattern?    : string
     url?        : string
     tips?       : string
     icon?       : string
@@ -60,8 +64,8 @@ export type iLoginOptions ={
     hero?:string                            // 指定主题图片
     layout:{
         cols: 2                             // 布局列数，取值1,2,3
-
     }
+
     // 外观配置
     appearance:{        
         primaryColor:string,                // 主色调

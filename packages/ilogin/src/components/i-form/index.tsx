@@ -23,9 +23,12 @@
 import { h, tag, Component, bind, createRef } from "omi";
 import css from "./index.css?raw";
 import { LoginFormField } from "../../types";
- 
+import { options } from "../../context"
+import { assignObject } from "../../utils/assignObject";
+
 
 export type iLoginFormProps = {
+	id:string
 	title?:string
 	url?:string
 	fields: Array<LoginFormField | Array<LoginFormField>>
@@ -35,37 +38,53 @@ export type iLoginFormProps = {
 export default class extends Component<iLoginFormProps> {
 	static css = [css];
 	static props = {		
+		id:{
+			type:String
+		},
 		fields:{
 			type:Array,
 		 	default:[]
 		}
 	}; 
 
-	el=createRef<HTMLFormElement>()
+	provide = {
+		form:this.props
+	}
 
-	@bind
-	onInput(e:any){
-		try{
-			const {name,value} = Object.assign({},e.target.detail)
+	el=createRef<HTMLFormElement>() 
+
+	install(){
+		assignObject(this.props,{
+			validate:{
+				on:"blur",
+		}})	
+	}
+	
+
+	// @bind
+	// onInput(e:any){
+	// 	try{
+	// 		const {name,value} = Object.assign({},e.target.detail)
 
 			
-		}catch{}		
-	}
-	@bind
-	onBlur(e:any){
+	// 	}catch{}		
+	// }
+	// @bind
+	// onBlur(e:any){
 
-	}
-	@bind
-	onChange(e:any){
+	// }
+	// @bind
+	// onChange(e:any){
 
-	}
-	@bind
-	onAction(e:any){
+	// }
+	// @bind
+	// onAction(e:any){
 
-	}
+	// }
 	@bind
 	onSubmit(e:any){ 
-		this.el.current!.submit()
+		//this.el.current!.submit()
+		e.preventDefault()
 	}
 	renderField(field:LoginFormField){
 		if(Array.isArray(field)){
@@ -83,7 +102,9 @@ export default class extends Component<iLoginFormProps> {
 				case "remember":
 					return <i-remember-field {...field}/>				
 				case "forgetPassword":
-					return <i-forget-password-field {...field}/>					
+					return <i-forget-password-field {...field}/>				
+				default:
+					return <i-input {...field}/>				
 			} 
 		}
 	}
@@ -96,15 +117,16 @@ export default class extends Component<iLoginFormProps> {
 			}
 		</div>
 	}
-	render(props) {
+
+	render(props: iLoginFormProps) {	
 		return (
 			<form 
 				ref={this.el}
 				method="post"
-				onaction={this.onAction} 
-				onInput={this.onInput}  
-				onBlur={this.onBlur}
-				onChange={this.onChange}
+				// onaction={this.onAction} 
+				// onInput={this.onInput}  
+				// onBlur={this.onBlur}
+				// onChange={this.onChange}
 				className="i-login-form"
 				action={props.url}
 			>
@@ -115,7 +137,7 @@ export default class extends Component<iLoginFormProps> {
 					})
 				}		
 				{/* 提交按钮 */}
-				<i-submit onSubmit={this.onSubmit}/> 
+				<i-submit/> 
 			</form> 
 		);
 	}

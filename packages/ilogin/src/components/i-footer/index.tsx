@@ -11,10 +11,10 @@ import { isEmpty } from '../../utils/isEmpty'
 @tag('i-login-footer')
 export default class extends Component {
   static css = [ css]
-  inject = ["options"]
+  inject = ["loginOptions"]
   get options(){
     // @ts-ignore
-    return this.injection.options
+    return this.injection.loginOptions
   }
  
   render(){

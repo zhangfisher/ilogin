@@ -1,34 +1,24 @@
-.i-form-layout{      
+.layout{      
   display: flex;
   flex-direction: column;  
   box-sizing: border-box;
   position: relative;
   width: 100%;  
-  .field {    
+  
+  &>.left{
     display: flex;
-    position: relative;
-    flex-direction: row; 
-    box-sizing: border-box;    
-    & >.label{
-      display: flex; 
-      position: relative;    
-      flex-direction: column; 
-      box-sizing: border-box;
-      padding:0.5em;
-      justify-content: center; 
-      width: 6em;
-      text-align: right;
-    }
-    & > .input{
-      display: flex; 
-      position: relative;    
-      flex-direction: row; 
-      box-sizing: border-box;
-      padding:0.5em;
-      align-items: center;
-      flex-grow: 1;
-      text-align: left;
-    } 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
   }
+  &>.right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+  }
+
   
 }

@@ -64,9 +64,11 @@ export default class extends Component {
 					checked={props.value} type="checkbox" 
 					onChange={this.onChange}					
 					onInput={this.onInput}		
-				/> 				
-				<span className="checkbox"></span>		
-				<label for={props.name}>{props.label}</label> 		
+				/> 		<span className="checkbox"/>										
+				<label for={props.name}>
+						
+					{props.label}
+				</label> 		
 			</div> 
 			)
 	}

@@ -57,31 +57,8 @@ export default class extends Component {
   }  
 
   provide = {  
-    options: options
-  } 
-  
-  install(){ 
-
-  }
-
-  installed(): void { 
-
-  }
-
-  removeCssVars(){
-
-  }
-
-  renderHeader(){
-
-  }
-  renderFooter(){
-    this.props
-  }
-
-  renderForm(){
-
-  } 
+    loginOptions: options
+  }  
 
   render(props:iLoginProps) {
 

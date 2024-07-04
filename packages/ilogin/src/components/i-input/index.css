@@ -25,6 +25,12 @@
       -ms-flex-direction: row;
           flex-direction: row;
 }
+.i-input.invalid {
+  border-color: red;
+}
+.i-input.invalid ~ .tips {
+  color: red;
+}
 .i-input > .wrapper {
   position: relative;
   padding: 0.5em;

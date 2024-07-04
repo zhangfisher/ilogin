@@ -9,6 +9,12 @@
   padding: 0em;
   border-radius: 5px; 
   flex-direction: row;  
+  &.invalid {
+    border-color: red;   
+    & ~ .tips{
+      color: red; 
+    }   
+  }
   & > .wrapper{
     position: relative;    
     padding:0.5em;

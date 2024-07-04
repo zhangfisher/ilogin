@@ -33,12 +33,11 @@ export default class extends Component<iPasswordFieldProps> {
         }
         return <i-input
             {...Object.assign({
-                actions:actions,
-                type:this.inputType.value,
+                actions:actions,               
                 placeholder:'密码',            
                 name:'password',
                 label:"忘记密码?",
-            },props)}
-            />
+            },props,{ type:this.inputType.value})}
+        />
     }
 }

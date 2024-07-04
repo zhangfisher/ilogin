@@ -1,4 +1,4 @@
-import { h, tag,  Component } from 'omi' 
+import { h, tag,  Component ,bind} from 'omi' 
 import css from "./app.css?raw"
 import { tailwind } from './tailwind'
 import "../../../packages/ilogin/src"  
@@ -6,12 +6,17 @@ import "../../../packages/ilogin/src"
 @tag('my-app')
 export default class extends Component {
   static css = [tailwind, css] 
-
+  inject=["loginOptions"]
+  @bind
+  validate(){
+    return 1000
+  }
   render() { 
     return (
-      <div className='px-5'> 
+      <>
+        <button onClick={this.validate}>validate</button>
          <i-login/>  
-      </div>
+      </>
     )
   }
 }

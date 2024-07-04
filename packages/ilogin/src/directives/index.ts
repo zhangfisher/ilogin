@@ -1,1 +1,2 @@
-export * from "./ripple"
+import "./ripple"
+import "./loading"

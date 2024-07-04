@@ -20,10 +20,11 @@
  *
  */
 
-import { h, tag,  Component } from "omi";
+import { h, tag,  Component,bind,createRef,signal } from "omi";
 import css from "./index.css?raw";
 import { options } from "../../context";
 import { isEmpty } from "../../utils/isEmpty";
+import classnames from 'classnames';
 
 const { panel,thirdPartyLogin,login } = options
 
@@ -31,6 +32,22 @@ const { panel,thirdPartyLogin,login } = options
 export default class extends Component {
 	static css = [css];
 	static props = {}; 
+	ref = createRef<HTMLDivElement>()
+	fliping = signal(false)
+	fliped = signal(false)
+
+	@bind	
+	onLogin(){
+		this.fliping.value = true
+	}
+
+	installed(){
+		this.ref.current?.addEventListener("animationend",()=>{
+			//this.fliping.value = false
+			this.fliped.value = true
+		})
+	}
+
 	renderHeader(){
 		return <>{ isEmpty(panel.title) ? null : 
 			<div className="header">
@@ -53,7 +70,7 @@ export default class extends Component {
 			}		
 		</>
 	}
-	renderLoginPanel(){
+	renderLoginForms(){
 		const tabs = Object.entries(login).map(([id,tab])=>{
 			return { id,title:tab.title || id}
 		})
@@ -62,7 +79,7 @@ export default class extends Component {
 				isEmpty(login) ? <span>未配置登录表单</span> :
 					<i-tabs tabs={tabs}>
 						{ tabs.map((tab)=>{
-							return <i-login-form slot={tab.id} {...login[tab.id]}></i-login-form>
+							return <i-login-form slot={tab.id} id={tab.id} {...login[tab.id]}></i-login-form>
 						}) }
 					</i-tabs> 
 			}
@@ -70,14 +87,17 @@ export default class extends Component {
 	}
 	render() {
 		return (
-			<div className="i-login-panel">
-				<div className="wrapper">					
-					{this.renderHeader()}
+			<div ref={this.ref}  
+				className="i-login-panel"				
+				onlogin={this.onLogin}
+			>
+				{this.renderHeader()}
+				<div className={classnames("wrapper")}>										
 					<div className="body">	
-						{this.renderLoginPanel()}
-					</div>
-					{this.renderFooter()}					
-				</div>
+						{this.renderLoginForms()}
+					</div> 		
+				</div>						
+				{this.renderFooter()}				
 			</div>
 		);
 	}

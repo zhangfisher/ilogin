@@ -97,6 +97,7 @@ export default class extends Component<CaptchaFieldProps> {
                     onClick: this.onRefreshCaptcha,
                 }
             ],
+            type:"text",
             placeholder:'验证码',
         },props)
         return <i-input {...options}>

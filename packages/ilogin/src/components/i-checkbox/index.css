@@ -41,7 +41,8 @@
       -ms-flex-align: stretch;
           align-items: stretch;
   position: relative;
-  padding-left: 0.5em;
+  padding-left: 1.5em;
+  margin-left: -1em;
 }
 .i-checkbox span.checkbox {
   width: 1.2em;
@@ -53,6 +54,8 @@
   -webkit-border-radius: 3px;
           border-radius: 3px;
   position: relative;
+  pointer-events: none;
+  cursor: pointer;
 }
 .i-checkbox input[type=checkbox]:checked ~ span.checkbox {
   background-color: var(--i-primary-color);

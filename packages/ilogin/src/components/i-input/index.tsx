@@ -7,14 +7,244 @@
  *
  */
 
-import { h, tag, Component, bind, createRef, signal, SignalValue,css, Ref } from 'omi';
+import { h, tag, Component, bind, createRef, signal, SignalValue,Ref } from 'omi';
 import style from "./index.css?raw";
 import "../i-header";
 import "../i-footer"; 
 import { isEmpty } from '../../utils/isEmpty';
 import classnames from 'classnames';
 import { assignObject } from '../../utils/assignObject';
+import { LoginFormDefine, iLoginOptions } from '../../types';
 
+export type iInputProps = { 	
+	name       : string
+	type       : 'text' | 'password'
+	actions    : InputActionDefine[]	
+	size       : 'small' | 'middle' | 'large' 
+	placeholder: string
+	ref        : Ref<HTMLInputElement>	
+	length?    : number
+	minLength? : number
+	maxLength? : number
+	pattern?   : string
+    validate?: (value:string)=>boolean | string | Promise<boolean | string>  
+};
+
+@tag("i-input")
+export default class extends Component<iInputProps> {
+	static css = [style];
+	static props = {		
+		name:{
+			type: String,
+			default: ''
+		},
+		length:{
+			type: Number,
+			default: 0
+		},		
+		minLength:{
+			type: Number,
+			default: 0
+		},		
+		maxLength:{
+			type: Number,
+			default: 0
+		},
+		actions:{
+			type: Array,
+			default: [] 
+		}, 
+		placeholder:{
+			type: String,
+			default: ''
+		},
+		validate:{
+			type: Function
+		},
+		pattern:{
+			type: String
+		},
+		ref:{
+			type: Object
+		},
+		size:{
+			type: String,
+			default: 'middle'
+		},
+	};
+	ref        = createRef<HTMLInputElement>()	
+	isValid    = signal(true) 
+	isValiding = signal(false) 
+	invalidTips = signal('') 
+	actions:any[] = []
+	inject = [ "form", "login"]
+	get formOptions(){
+		return this.injection?.form as Required<LoginFormDefine>
+	}
+	get loginOptions(){
+		return this.injection?.login as Required<iLoginOptions>
+	}
+	/**
+	 * 校验输入框的值
+	 */
+	onValidate(){
+		if(this.isValiding.value) return 
+		const value = this.ref.current!.value
+		const validate = this.props.validate
+		let isValid = true, invalidTips:string = ''
+		this.isValiding.value = true
+		return new Promise<[ boolean,string ]>((resolve)=>{
+			const {length=0, minLength=0, maxLength=0 } = this.props
+			if(minLength>0 && value.length < minLength){
+				isValid = false
+				invalidTips = `长度不足，至少${minLength}个字符`
+			}else if(maxLength>0 && value.length > maxLength){
+				isValid = false
+				invalidTips = `长度超出，最多${maxLength}个字符`
+			}else if(length>0 && value.length!==length){
+				isValid = false
+				invalidTips = `输入限制为${length}个字符`
+			}else if(validate instanceof RegExp){
+				isValid = validate.test(value)
+				invalidTips = `格式不正确，应该匹配${validate.toString()}`
+			}
+			if(isValid && typeof(validate)=="function"){
+				(async ()=>validate(value))().then((result)=>{
+					isValid = typeof(result)=='boolean' ? result : 
+						(typeof(result)=='string' ? false : !(isValid===false))
+					invalidTips = typeof(result)=='string' ? result : (isValid===false ? "校验错误" : "")
+				}).catch((e)=>{
+					isValid = false
+					invalidTips = e.message
+				}).finally(()=>{
+					this.isValiding.value = false
+					resolve([isValid,invalidTips])
+				})				
+			}else{				
+				this.isValiding.value = false
+				resolve([isValid,invalidTips])
+			}  
+		})		
+	}
+	@bind
+	onBlur(e:any){
+		if(this.formOptions.validate.on=='blur'){
+			this.onValidate().then(([isValid,invalidTips])=>{				
+			   this.isValid.value = isValid
+			   this.invalidTips.value = invalidTips
+			})
+	    }
+
+		const event = new CustomEvent('blur', {
+			detail: {
+				name : this.props.name,
+				value:e.target.value
+			},				
+			bubbles: true,
+			composed: true
+		});
+		this.dispatchEvent(event)
+		e.stopPropagation()
+		
+
+	}
+	@bind
+	onInput(e:any){
+		if(this.isValid.value==false) this.isValid.value = true
+		const event = new CustomEvent('input', {
+			detail:{
+				name : this.props.name,
+				value: e.target.value,
+				input:this
+			},
+			bubbles: true,
+			composed: true
+		});
+		this.dispatchEvent(event)
+		e.stopPropagation()
+	}
+	@bind
+	onChange(e:any){
+		const event = new CustomEvent('change', {
+			detail: e.target.value,
+			bubbles: true,
+			composed: true
+		});
+		this.dispatchEvent(event)		
+		e.stopPropagation()
+	}
+
+	getActions(pos:string='default'){
+		const actions = this.props.actions  //this.props.actions
+		if(!actions) return []
+		try{
+			return actions.filter((action) => {
+				if(!action.position) action.position="default"
+				return action.position == pos
+			})
+		}catch(e){
+			return []
+		}
+	}
+	renderActions(){	 
+		try{
+			const actions = this.getActions()  
+			return actions.map((action) => { 
+				const ref = createRef()
+				this.actions.push(ref)
+				action.type='button'
+				return <i-input-action part="action" ref={ref} {...action}> 
+					<slot name={action.id}></slot>
+				</i-input-action>
+			})
+		}catch(e){
+
+		}
+		return 	 
+	}
+	/**
+	 * 如果有多个图标可以通过点击切换
+	 * @param pos 
+	 * @returns 
+	 */
+	renderIcons(pos:string='after'){
+		const actions = this.getActions(pos)
+		if(actions.length>0){
+			return actions.map(action=>{
+				action.type='icon'
+				return <i-input-action {...action}/> 
+			})
+		} 	
+	}
+
+	render(props: iInputProps) {	 
+		return <>
+			<div className={classnames("i-input",{ 
+				invalid: !this.isValid.value
+			})}>
+				<span className="wrapper">
+					{this.renderIcons("before")}
+					<input
+						name={props.name}
+						ref ={this.ref}
+						type={props.type}
+						onBlur={this.onBlur}
+						onChange={this.onChange}
+						onInput={this.onInput}
+						pattern={props.pattern}
+						minLength={props.minLength > 0 ? props.minLength : (props.length > 0 ? props.length : undefined) }
+						maxLength={props.maxLength > 0 ? props.maxLength : (props.length > 0 ? props.length : undefined) }
+
+						placeholder={props.placeholder} />
+					{this.renderIcons("after")}
+				</span>
+				{ this.renderActions() } 
+			</div>
+			{!this.isValid.value && <div className="tips">{this.invalidTips.value}</div>}
+			<slot name="tips"></slot>
+			</> 
+	}
+}
 
 export type InputActionDefine = {
 	id?      : string;
@@ -139,145 +369,5 @@ export class iInputAction extends Component<InputActionProps> {
 		}else{
 			return this.renderButton()
 		}
-	}
-}
-
-export type iInputProps = { 	
-	name: string
-	type: 'text' | 'password'
-	actions : InputActionDefine[]	
-	error : string
-	size  : 'small' | 'middle' | 'large' 
-	placeholder: string
-	ref : Ref<HTMLInputElement>	
-	minLength?: number
-	maxLength?: number
-};
-@tag("i-input")
-export default class extends Component<iInputProps> {
-	static css = [style];
-	static props = {		
-		name:{
-			type: String,
-			default: ''
-		},
-		actions:{
-			type: Array,
-			default: [] 
-		},
-		error:{
-			type: String,
-			default: ''
-		},
-		placeholder:{
-			type: String,
-			default: ''
-		}
-	};
-	ref= createRef()
-	actions:any[] = []
-	@bind
-	onBlur(e:any){
-		const event = new CustomEvent('blur', {
-			detail: {
-				name : this.props.name,
-				value:e.target.value
-			},				
-			bubbles: true,
-			composed: true
-		});
-		this.dispatchEvent(event)
-		e.stopPropagation()
-	}
-	@bind
-	onInput(e:any){
-		const event = new CustomEvent('input', {
-			detail:{
-				name : this.props.name,
-				value: e.target.value,
-				input:this
-			},
-			bubbles: true,
-			composed: true
-		});
-		this.dispatchEvent(event)
-		e.stopPropagation()
-	}
-	@bind
-	onChange(e:any){
-		const event = new CustomEvent('change', {
-			detail: e.target.value,
-			bubbles: true,
-			composed: true
-		});
-		this.dispatchEvent(event)		
-		e.stopPropagation()
-	}
-
-	getActions(pos:string='default'){
-		const actions = this.props.actions  //this.props.actions
-		if(!actions) return []
-		try{
-			return actions.filter((action) => {
-				if(!action.position) action.position="default"
-				return action.position == pos
-			})
-		}catch(e){
-			return []
-		}
-	}
-	renderActions(){	 
-		try{
-			const actions = this.getActions()  
-			return actions.map((action) => { 
-				const ref = createRef()
-				this.actions.push(ref)
-				action.type='button'
-				return <i-input-action part="action" ref={ref} {...action}> 
-					<slot name={action.id}></slot>
-				</i-input-action>
-			})
-		}catch(e){
-
-		}
-		return 	 
-	}
-	/**
-	 * 如果有多个图标可以通过点击切换
-	 * @param pos 
-	 * @returns 
-	 */
-	renderIcons(pos:string='after'){
-		const actions = this.getActions(pos)
-		if(actions.length>0){
-			return actions.map(action=>{
-				action.type='icon'
-				return <i-input-action {...action}/> 
-			})
-		} 	
-	}
-
-	render(props: iInputProps) {	
-		return <>
-			<div className="i-input" ref={this.ref}>
-				<span className="wrapper">
-					{this.renderIcons("before")}
-					<input
-						name={props.name}
-						ref ={props.ref}
-						type={props.type}
-						onBlur={(e)=>this.onBlur(e)}
-						onChange={(e)=>this.onChange(e)}
-						onInput={(e)=>this.onInput(e)}
-						minLength={props.minLength}
-						maxLength={props.maxLength}
-						placeholder={props.placeholder} />
-					{this.renderIcons("after")}
-				</span>
-				{ this.renderActions() } 
-			</div>
-			{props.error && <div className="error">{props.error}</div>}
-			<slot name="tips"></slot>
-			</> 
 	}
 }

@@ -5,10 +5,7 @@ const style  = css`
     i-input::part(action){
         min-width: 4em;
         justify-content: center;
-    } 
-    :host .tips{
-        color:red;
-    }
+    }  
 
 `
 
@@ -16,8 +13,7 @@ export type VerifyCodeFieldProps = iInputProps & {
     timeout:number          // 发送验证码的等待时间，以秒为单位
     sendUrl:string          // 发送验证码的地址
     sendTips:string         // 发送验证码后的提示信息
-    validUrl:string         // 验证验证码的地址
-    length:number           // 验证码的长度    
+    validUrl:string         // 验证验证码的地址  
 }
  
 @tag("i-verify-code-field")
@@ -37,10 +33,6 @@ export default class extends Component<VerifyCodeFieldProps> {
         },
         validUrl:{ 
             type:String
-        },
-        length:{
-            type:Number,
-            default:6
         }
     }    
     tmId:any = 0
@@ -75,9 +67,9 @@ export default class extends Component<VerifyCodeFieldProps> {
             }
         ]
         const options=  Object.assign({ 
-            actions,
+            actions,                        
             placeholder:'验证码',
-        },props)
+        },props,{type:"text"})
         return <i-input {...options} >
             { this.isSend.value ? <span className="tips" slot="tips">{props.sendTips}</span>  : null }
         </i-input>

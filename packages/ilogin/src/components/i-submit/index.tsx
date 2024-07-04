@@ -23,22 +23,19 @@ export default class extends Component<iSubmitProps> {
 		}
 	};  
 	@bind
-	onClick(e:any){
-		alert("click")
-		const event = new CustomEvent("submit", {
+	onClick(e:any){ 		
+		const event = new CustomEvent("login", {
 			detail:e.detail,
 			bubbles: true,
 			composed: true
 		});
-		//this.dispatchEvent(event);
-		e.stopPropagation();
+		this.dispatchEvent(event);
 	}
-	render(props: iSubmitProps) {		
-		
+	render(props: iSubmitProps) {
 		return ( 			
-				<button className="submit" onClick={this.onClick} o-ripple>
-				登录
-				</button>
+			<button className="submit" onClick={this.onClick} o-ripple>
+			登录
+			</button>
 		)
 	}
 }

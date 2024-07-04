@@ -36,10 +36,10 @@ export default class extends Component {
       type: String
     }
   }    
-  inject = ["options"]
+  inject = ["loginOptions"]
   get options(){
     // @ts-ignore
-    return this.injection.options
+    return this.injection.loginOptions
   }
   getHeaderProps(){
     return {
