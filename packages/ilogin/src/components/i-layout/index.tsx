@@ -27,21 +27,8 @@ export default class extends Component<iLayoutProps> {
   }    
  
   render(props:iLayoutProps){
-    const {ratio} = Object.assign({
-      ratio:[1,1]
-    },props);
-    return  <div className={classnames("layout",{
-      "one-col":props.cols === 1,
-      "two-col":props.cols === 2
-    })}>
-        { props.cols==1 ? null : 
-          <div className="left" style={{
-            flexGrow: ratio[0]
-          }}><slot name="left"/></div>
-        }
-        <div className="right" style={{
-            flexGrow: props.cols==1  ? 1 : ratio[1]
-          }}><slot/><slot name="right"/></div>
+    return  <div>
+     
     </div>
   }
 }

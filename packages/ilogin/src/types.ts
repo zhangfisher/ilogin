@@ -57,15 +57,15 @@ export type LoginFormDefine = {
 
 export type iLoginOptions ={
     title: string                           // 应用标题
-    subTitle?:string                         // 应用副标题
+    subTitle?:string                        // 应用副标题
     logo:string                             // 应用logo图片地址    
     copyright?:string
     homepage?:string
     hero?:string                            // 指定主题图片
     layout:{
-        cols: 2                             // 布局列数，取值1,2,3
-    }
+        cols: 1 | 2                         // 布局列数，取值1,2,3
 
+    }
     // 外观配置
     appearance:{        
         primaryColor:string,                // 主色调
@@ -97,7 +97,7 @@ export type iLoginOptions ={
     // 登录面板
     panel:{
         title:string                    // 表单标题,为空时不显示
-        col: number                     // 指定表单面板显示在哪一个列
+        col: number                     // 指定表单面板显示在哪一个列，取值
         offsetX: number | string        // 表单水平偏移量
         offsetY: number | string        // 表单垂直偏移量
         width: number | string          // 指定表单宽度

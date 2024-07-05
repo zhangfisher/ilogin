@@ -64,10 +64,10 @@ export default class extends Component {
 
     return (<>
       <div className="i-login">     
-        <i-login-header />  
-        <div className='workspace'> 
-            <i-login-panel />
-        </div>
+        <i-login-header />   
+            <div className='workspace'>
+              <i-login-panel />
+            </div> 
         <i-waves {...getPropGroup("waves",props,{})}/>     
         <i-login-footer />
       </div></>

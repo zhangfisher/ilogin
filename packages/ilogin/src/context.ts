@@ -39,6 +39,9 @@ export function getLoginOptions(){
         logo:'/logo.svg',
         copyright:"©2021 Voerka Group",
         // homepage:"/",
+        layout:{
+            cols:1
+        },
         appearance:{
             primaryColor   : "#0873b1",
             secondaryColor : "#f5222d",

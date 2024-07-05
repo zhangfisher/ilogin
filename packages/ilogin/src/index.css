@@ -56,6 +56,17 @@
           justify-content: center;
 }
 /* Extra small devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .i-login > .workspace {
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+  }
+  .i-login > .workspace i-login-panel {
+    width: 100%;
+  }
+}
 /* Small devices (landscape phones, 576px and up) */
 /* Medium devices (tablets, 768px and up) */
 /* Large devices (desktops, 992px and up) */

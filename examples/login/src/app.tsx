@@ -14,7 +14,6 @@ export default class extends Component {
   render() { 
     return (
       <>
-        <button onClick={this.validate}>validate</button>
          <i-login/>  
       </>
     )

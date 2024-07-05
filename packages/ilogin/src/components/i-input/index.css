@@ -68,6 +68,7 @@
       -ms-flex-negative: 1;
           flex-shrink: 1;
   padding: 0.5em;
+  width: 100%;
 }
 .i-input > .wrapper > input:focus {
   outline: none;

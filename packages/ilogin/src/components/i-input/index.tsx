@@ -15,6 +15,7 @@ import { isEmpty } from '../../utils/isEmpty';
 import classnames from 'classnames';
 import { assignObject } from '../../utils/assignObject';
 import { LoginFormDefine, iLoginOptions } from '../../types';
+import { fireEvent } from '../../utils/fireEvent';
 
 export type iInputProps = { 	
 	name       : string
@@ -23,11 +24,11 @@ export type iInputProps = {
 	size       : 'small' | 'middle' | 'large' 
 	placeholder: string
 	ref        : Ref<HTMLInputElement>	
-	length?    : number
-	minLength? : number
-	maxLength? : number
-	pattern?   : string
-    validate?: (value:string)=>boolean | string | Promise<boolean | string>  
+	length    : number
+	minLength : number
+	maxLength : number
+	pattern   : string
+    validate: (value:string)=>boolean | string | Promise<boolean | string>  
 };
 
 @tag("i-input")
@@ -87,91 +88,77 @@ export default class extends Component<iInputProps> {
 	/**
 	 * 校验输入框的值
 	 */
-	onValidate(){
+	executeValidate(){
 		if(this.isValiding.value) return 
 		const value = this.ref.current!.value
 		const validate = this.props.validate
 		let isValid = true, invalidTips:string = ''
 		this.isValiding.value = true
-		return new Promise<[ boolean,string ]>((resolve)=>{
-			const {length=0, minLength=0, maxLength=0 } = this.props
-			if(minLength>0 && value.length < minLength){
+			
+		const {length=0, minLength=0, maxLength=0 } = this.props
+		if(minLength>0 && value.length < minLength){
+			isValid = false
+			invalidTips = `长度不足，至少${minLength}个字符`
+		}else if(maxLength>0 && value.length > maxLength){
+			isValid = false
+			invalidTips = `长度超出，最多${maxLength}个字符`
+		}else if(length>0 && value.length!==length){
+			isValid = false
+			invalidTips = `输入限制为${length}个字符`
+		}else if(validate instanceof RegExp){
+			isValid = validate.test(value)
+			invalidTips = `格式不正确，应该匹配${validate.toString()}`
+		}
+		if(isValid && typeof(validate)=="function"){ 
+			(async ()=>validate(value))().then((result)=>{
+				isValid = typeof(result)=='boolean' ? result : 
+					(typeof(result)=='string' ? false : !(isValid===false))
+				invalidTips = typeof(result)=='string' ? result : (isValid===false ? "校验错误" : "")
+			}).catch((e)=>{
 				isValid = false
-				invalidTips = `长度不足，至少${minLength}个字符`
-			}else if(maxLength>0 && value.length > maxLength){
-				isValid = false
-				invalidTips = `长度超出，最多${maxLength}个字符`
-			}else if(length>0 && value.length!==length){
-				isValid = false
-				invalidTips = `输入限制为${length}个字符`
-			}else if(validate instanceof RegExp){
-				isValid = validate.test(value)
-				invalidTips = `格式不正确，应该匹配${validate.toString()}`
-			}
-			if(isValid && typeof(validate)=="function"){
-				(async ()=>validate(value))().then((result)=>{
-					isValid = typeof(result)=='boolean' ? result : 
-						(typeof(result)=='string' ? false : !(isValid===false))
-					invalidTips = typeof(result)=='string' ? result : (isValid===false ? "校验错误" : "")
-				}).catch((e)=>{
-					isValid = false
-					invalidTips = e.message
-				}).finally(()=>{
-					this.isValiding.value = false
-					resolve([isValid,invalidTips])
-				})				
-			}else{				
-				this.isValiding.value = false
-				resolve([isValid,invalidTips])
-			}  
-		})		
+				invalidTips = e.message
+			}).finally(()=>{
+				this.isValiding.value = false 
+				this.isValid.value = isValid
+				this.invalidTips.value = invalidTips	
+			})				
+		}else{				
+			this.isValiding.value = false
+			this.isValid.value = isValid
+			this.invalidTips.value = invalidTips	
+		}  
 	}
+	
 	@bind
 	onBlur(e:any){
-		if(this.formOptions.validate.on=='blur'){
-			this.onValidate().then(([isValid,invalidTips])=>{				
-			   this.isValid.value = isValid
-			   this.invalidTips.value = invalidTips
-			})
+		if(this.formOptions.validate.on=='blur'){ 
+			this.executeValidate() 
 	    }
-
-		const event = new CustomEvent('blur', {
-			detail: {
-				name : this.props.name,
-				value:e.target.value
-			},				
-			bubbles: true,
-			composed: true
-		});
-		this.dispatchEvent(event)
-		e.stopPropagation()
-		
-
+		fireEvent.call(this,'blur',{
+			name : this.props.name,
+			value:e.target.value
+		}) 
 	}
 	@bind
 	onInput(e:any){
 		if(this.isValid.value==false) this.isValid.value = true
-		const event = new CustomEvent('input', {
-			detail:{
-				name : this.props.name,
-				value: e.target.value,
-				input:this
-			},
-			bubbles: true,
-			composed: true
-		});
-		this.dispatchEvent(event)
-		e.stopPropagation()
+		if(this.formOptions.validate.on=='input'){
+			this.executeValidate() 
+		}
+
+		fireEvent.call(this,'input', {
+			name : this.props.name,
+			value: e.target.value,
+			input:this
+		})
 	}
 	@bind
 	onChange(e:any){
-		const event = new CustomEvent('change', {
-			detail: e.target.value,
-			bubbles: true,
-			composed: true
-		});
-		this.dispatchEvent(event)		
-		e.stopPropagation()
+		fireEvent.call(this,'change',{
+			name : this.props.name,
+			value: e.target.value,
+			input:this
+		})
 	}
 
 	getActions(pos:string='default'){
