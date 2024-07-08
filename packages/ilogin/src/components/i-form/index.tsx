@@ -57,18 +57,21 @@ export default class extends Component<iLoginFormProps> {
 		assignObject(this.props,{
 			validate:{
 				on:"blur",
-		}})	
-	}
+		}})			
+	} 
 	
+	installed(){
+		this.el.current.addEventListener("fieldinput",this.onFieldInput)
+	}
 
-	// @bind
-	// onInput(e:any){
-	// 	try{
-	// 		const {name,value} = Object.assign({},e.target.detail)
-
+	@bind
+	onFieldInput(e:any){
+		try{
+			const {name,value} = Object.assign({},e.detail)
+			console.log(name,"=",value)
 			
-	// 	}catch{}		
-	// }
+		}catch{}		
+	}
 	// @bind
 	// onBlur(e:any){
 
@@ -81,9 +84,13 @@ export default class extends Component<iLoginFormProps> {
 	// onAction(e:any){
 
 	// }
+
 	@bind
 	onSubmit(e:any){ 
-		//this.el.current!.submit()
+		const formData = new FormData(this.el.current!)
+		for (const pair of formData.entries()) {
+			console.log(`${pair[0]}, ${pair[1]}`);
+		} 
 		e.preventDefault()
 	}
 	renderField(field:LoginFormField){
@@ -124,9 +131,9 @@ export default class extends Component<iLoginFormProps> {
 				ref={this.el}
 				method="post"
 				// onaction={this.onAction} 
-				// onInput={this.onInput}  
+				onfieldinput={this.onFieldInput}  
 				// onBlur={this.onBlur}
-				// onChange={this.onChange}
+				// onChange={this.onChange} 
 				className="i-login-form"
 				action={props.url}
 			>
@@ -137,7 +144,7 @@ export default class extends Component<iLoginFormProps> {
 					})
 				}		
 				{/* 提交按钮 */}
-				<i-submit/> 
+				<i-submit  onsubmit={this.onSubmit}/> 
 			</form> 
 		);
 	}

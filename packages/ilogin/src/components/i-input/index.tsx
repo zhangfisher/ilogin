@@ -72,18 +72,26 @@ export default class extends Component<iInputProps> {
 			type: String,
 			default: 'middle'
 		},
-	};
-	ref        = createRef<HTMLInputElement>()	
-	isValid    = signal(true) 
-	isValiding = signal(false) 
-	invalidTips = signal('') 
-	actions:any[] = []
-	inject = [ "form", "login"]
+	}; 
+
+	actions: any[] = []
+	isValid     = signal(true) 
+	isValiding  = signal(false) 
+	invalidTips = signal('') 	
+	inject      = [ "form", "login"]
+	_ref = createRef<HTMLInputElement>()
 	get formOptions(){
 		return this.injection?.form as Required<LoginFormDefine>
 	}
 	get loginOptions(){
 		return this.injection?.login as Required<iLoginOptions>
+	}
+	get ref(){
+		if(typeof(this.props.ref)==='object'){
+			return this.props.ref as typeof this._ref
+		}else{
+			return this._ref!
+		} 
 	}
 	/**
 	 * 校验输入框的值
@@ -127,8 +135,7 @@ export default class extends Component<iInputProps> {
 			this.isValid.value = isValid
 			this.invalidTips.value = invalidTips	
 		}  
-	}
-	
+	} 
 	@bind
 	onBlur(e:any){
 		if(this.formOptions.validate.on=='blur'){ 
@@ -144,13 +151,13 @@ export default class extends Component<iInputProps> {
 		if(this.isValid.value==false) this.isValid.value = true
 		if(this.formOptions.validate.on=='input'){
 			this.executeValidate() 
-		}
-
-		fireEvent.call(this,'input', {
+		} 
+		this.fire('fieldinput',{
 			name : this.props.name,
 			value: e.target.value,
 			input:this
-		})
+		},{ bubbles: true, composed: true })
+		e.preventDefault()
 	}
 	@bind
 	onChange(e:any){
@@ -221,7 +228,6 @@ export default class extends Component<iInputProps> {
 						pattern={props.pattern}
 						minLength={props.minLength > 0 ? props.minLength : (props.length > 0 ? props.length : undefined) }
 						maxLength={props.maxLength > 0 ? props.maxLength : (props.length > 0 ? props.length : undefined) }
-
 						placeholder={props.placeholder} />
 					{this.renderIcons("after")}
 				</span>

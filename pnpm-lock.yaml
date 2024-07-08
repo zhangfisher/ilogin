@@ -189,8 +189,8 @@ importers:
         specifier: ^4.3.1
         version: 4.3.1
       omi:
-        specifier: latest
-        version: 7.6.7
+        specifier: ^7.6.10
+        version: 7.6.10
       omi-ripple:
         specifier: ^0.1.2
         version: 0.1.2
@@ -1529,6 +1529,9 @@ packages:
   omi-transition@0.1.7:
     resolution: {integrity: sha512-nbps2ChxyQ7qq5dFakxVFyWo9shORQmM6CAAvCLfnKb4a3wbkFihtlcO8F4AQss2Ofo38exkXqX2jVJzfddOyw==}
 
+  omi@7.6.10:
+    resolution: {integrity: sha512-QbVLEzNzy83928BzDk7Ik89iKaC7Sbe1yIJfmoAuhI9z9FH9uWl1Q38QR71V1PHZIsq3mmN8Rs6OE01L/2w5GQ==}
+
   omi@7.6.7:
     resolution: {integrity: sha512-YjoCtgCOghSFB2wc1fCzwKA9eMd01FF2auZRp17HxSpo6noal12NbuzvSfgsGXFzAy97+lwgaRjTBR3n3EGiYw==}
 
@@ -2268,7 +2271,7 @@ snapshots:
   '@omiu/button@0.0.12':
     dependencies:
       '@omiu/common': 0.0.17
-      omi: 7.6.7
+      omi: 7.6.10
 
   '@omiu/common@0.0.17':
     dependencies:
@@ -3230,11 +3233,17 @@ snapshots:
 
   omi-ripple@0.1.2:
     dependencies:
-      omi: 7.6.7
+      omi: 7.6.10
 
   omi-transition@0.1.7:
     dependencies:
-      omi: 7.6.7
+      omi: 7.6.10
+
+  omi@7.6.10:
+    dependencies:
+      construct-style-sheets-polyfill: 3.0.1
+      reactive-signal: 1.0.3
+      weakmap-polyfill: 2.0.4
 
   omi@7.6.7:
     dependencies:
